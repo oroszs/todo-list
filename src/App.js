@@ -1,5 +1,5 @@
 import './App.css';
-import Manager from './Manager.js';
+import Manager from './Components/Manager.js';
 function App() {
   return (
     <div id='main'>
