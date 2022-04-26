@@ -1,5 +1,5 @@
 # To-Do List
-This application allows the user to create, edit, add, and delete 'to-do' list items.
+This application allows the user to add, delete, and edit 'to-do' list items.
 
 # Getting Started with Create React App
 
