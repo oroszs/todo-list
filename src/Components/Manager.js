@@ -12,11 +12,25 @@ class Manager extends React.Component {
             newTodo: null,
             editTodo: null,
             deleting: false,
+            editing: false,
+            creating: false,
         }
         this.changeTodo = this.changeTodo.bind(this);
     }
 
+    createOff() {
+        this.setState({
+            creating: false,
+        });
+    }
+
     createTodo() {
+        let editing = this.state.editing;
+        let deleting = this.state.deleting;
+        let creating = this.state.creating;
+        if(editing || deleting || creating) {
+            return;
+        }
         let newOne = (
             <div className='create-todo-div'>
                 <input className='create-todo-element' placeholder='Enter Title Here...' type='text' id='title' />
@@ -31,16 +45,36 @@ class Manager extends React.Component {
         );
         this.setState({
             newTodo: newOne,
+            creating: true,
         });
     }
 
     changeTodo(index) {
         let deleting = this.state.deleting;
+        let editing = this.state.editing;
         if(deleting) {
             this.deleteTodo(index);
-        } else {
+        } else if (editing) {
             this.editTodo(index);
         }
+    }
+
+    editOn() {
+        let editing = this.state.editing;
+        let deleting = this.state.deleting;
+        let creating = this.state.creating;
+        if(editing || deleting || creating) {
+            return;
+        }
+        this.setState({
+            editing: true,
+        });
+    }
+
+    editOff() {
+        this.setState({
+            editing: false,
+        });
     }
 
     editTodo(index) {
@@ -48,22 +82,46 @@ class Manager extends React.Component {
         let chosenTodo = currentTodos[index - 1];
         let editOne = (
             <div className='create-todo-div'>
-                <input className='create-todo-element' type='text' id='title' value={chosenTodo.title}/>
-                <textarea className='create-todo-element' id='description' value={chosenTodo.description}/>
+                <input className='create-todo-element' type='text' id='title' placeholder={chosenTodo.title}/>
+                <textarea className='create-todo-element' id='description' placeholder={chosenTodo.description}/>
                 <div className='create-todo-element'>
-                    <input type='radio' name='progress' value='Not Started' checked={chosenTodo.status==='Not Started' ? true : false}/>Not Started
-                    <input type='radio' name='progress' value='In Progress' checked={chosenTodo.status==='In Progress' ? true : false}/>In Progress
-                    <input type='radio' name='progress' value='Completed' checked={chosenTodo.status==='Completed' ? true : false}/>Completed
+                    <input id='not-started' type='radio' name='progress' value='Not Started' />Not Started
+                    <input id='in-progress' type='radio' name='progress' value='In Progress' />In Progress
+                    <input id='completed' type='radio' name='progress' value='Completed' />Completed
                 </div>
                 <button className='create-todo-element' id='submit-button' onClick={() => this.updateTodo()}>Submit</button>
             </div>
         );
         this.setState({
             editTodo: editOne,
+        }, () => {
+            let notStart = document.querySelector('#not-started');
+            let inProg = document.querySelector('#in-progress');
+            let complete = document.querySelector('#completed');
+            let status = chosenTodo.status;
+            switch(status) {
+                case 'Not Started':
+                    notStart.checked = true;
+                    break;
+                case 'In Progress':
+                    inProg.checked = true;
+                    break;
+                case 'Completed':
+                    complete.checked = true;
+                    break;
+                default:
+                break;
+            }
         });
     }
 
     deleteOn() {
+        let editing = this.state.editing;
+        let deleting = this.state.deleting;
+        let creating = this.state.creating;
+        if(editing || deleting || creating) {
+            return;
+        }
         this.setState({
             deleting: true,
         });
@@ -97,6 +155,7 @@ class Manager extends React.Component {
         this.setState({
             newTodo: null,
             todos: currentTodos,
+            creating: false,
         });
     }
 
@@ -113,6 +172,7 @@ class Manager extends React.Component {
         this.setState({
             editTodo: null,
             todos: currentTodos,
+            editing: false,
         });
     }
 
@@ -131,16 +191,22 @@ class Manager extends React.Component {
         let newTodo = this.state.newTodo;
         let editTodo = this.state.editTodo;
         let deleting = this.state.deleting;
+        let editing = this.state.editing;
+        let creating = this.state.creating;
+        let todos = this.state.todos;
         return(
             <div id='wrapper'>
-                <div>{newTodo}</div>
-                <div>{editTodo}</div>
+                {creating ? <div>{newTodo}</div> : null}
+                {editing? <div>{editTodo}</div> : null}
                 <div id='todo-controls' className='main-element'>
                     <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button>
-                    <button className='todo-button' onClick={() => this.deleteOn()}>Remove To-Do</button>
+                    {todos.length > 0? <button className='todo-button' onClick={() => this.deleteOn()}>Remove To-Do</button> : null}
+                    {todos.length > 0? <button className='todo-button' onClick={() => this.editOn()}>Edit To-Do</button> : null}
                 </div>
                 <div id='todo-holder' className='main-element'>{this.displayTodos()}</div>
                 {deleting? <button className='todo-button main-element' onClick={() => this.deleteOff()}>Cancel Delete</button> : null}
+                {editing? <button className='todo-button main-element' onClick={() => this.editOff()}>Cancel Edit</button> : null}
+                {creating? <button className='todo-button main-element' onClick={() => this.createOff()}>Cancel Create</button> : null}
             </div>
         );
     }
