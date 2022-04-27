@@ -203,15 +203,15 @@ class Manager extends React.Component {
                 </div>
                 <div id='main-wrapper'>
                     <div id='todo-controls' className='main-element'>
-                        <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button>
-                        {todos.length > 0? <button className='todo-button' onClick={() => this.deleteOn()}>Remove To-Do</button> : null}
-                        {todos.length > 0? <button className='todo-button' onClick={() => this.editOn()}>Edit To-Do</button> : null}
+                        {!creating && !editing && !deleting ? <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button> : null}
+                        {todos.length > 0 && !creating && !editing && !deleting? <button className='todo-button' onClick={() => this.deleteOn()}>Remove To-Do</button> : null}
+                        {todos.length > 0 && !creating && !editing && !deleting? <button className='todo-button' onClick={() => this.editOn()}>Edit To-Do</button> : null}
+                        {deleting? <button className='todo-button cancel-button' onClick={() => this.deleteOff()}>Cancel Delete</button> : null}
+                        {editing? <button className='todo-button cancel-button' onClick={() => this.editOff()}>Cancel Edit</button> : null}
+                        {creating? <button className='todo-button cancel-button' onClick={() => this.createOff()}>Cancel Create</button> : null}
                     </div>
-                    {todos.length > 0? <div id='todo-holder' className='main-element'>{this.displayTodos()}</div> : null}
+                    {todos.length > 0? <div id='todo-holder' className='main-element full-holder'>{this.displayTodos()}</div> : <div id='todo-holder' className='main-element closed-holder'><span id='empty-message'>Click "Add To-Do" to Get Started!</span></div>}
                 </div>
-                {deleting? <button className='todo-button cancel-button' onClick={() => this.deleteOff()}>Cancel Delete</button> : null}
-                {editing? <button className='todo-button cancel-button' onClick={() => this.editOff()}>Cancel Edit</button> : null}
-                {creating? <button className='todo-button cancel-button' onClick={() => this.createOff()}>Cancel Create</button> : null}
             </div>
         );
     }
