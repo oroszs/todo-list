@@ -165,10 +165,11 @@ class Manager extends React.Component {
         let description = document.querySelector('#description');
         let status = document.querySelector('input[type="radio"]:checked');
         let todo = new TodoObj;
-        todo.title = title.value;
-        todo.description = description.value;
+        console.log(title.value);
+        todo.title = (title.value === '' ? title.placeholder : title.value);
+        todo.description = (description.value === '' ? description.placeholder : description.value);
         todo.status = status.value;
-        currentTodos[index - 1] = todo;
+        currentTodos.splice(index - 1, 1, todo);
         this.setState({
             editTodo: null,
             todos: currentTodos,
@@ -196,17 +197,21 @@ class Manager extends React.Component {
         let todos = this.state.todos;
         return(
             <div id='wrapper'>
-                {creating ? <div>{newTodo}</div> : null}
-                {editing? <div>{editTodo}</div> : null}
-                <div id='todo-controls' className='main-element'>
-                    <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button>
-                    {todos.length > 0? <button className='todo-button' onClick={() => this.deleteOn()}>Remove To-Do</button> : null}
-                    {todos.length > 0? <button className='todo-button' onClick={() => this.editOn()}>Edit To-Do</button> : null}
+                <div id='popup-wrapper'>
+                    {creating ? <div>{newTodo}</div> : null}
+                    {editing? <div>{editTodo}</div> : null}
                 </div>
-                <div id='todo-holder' className='main-element'>{this.displayTodos()}</div>
-                {deleting? <button className='todo-button main-element' onClick={() => this.deleteOff()}>Cancel Delete</button> : null}
-                {editing? <button className='todo-button main-element' onClick={() => this.editOff()}>Cancel Edit</button> : null}
-                {creating? <button className='todo-button main-element' onClick={() => this.createOff()}>Cancel Create</button> : null}
+                <div id='main-wrapper'>
+                    <div id='todo-controls' className='main-element'>
+                        <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button>
+                        {todos.length > 0? <button className='todo-button' onClick={() => this.deleteOn()}>Remove To-Do</button> : null}
+                        {todos.length > 0? <button className='todo-button' onClick={() => this.editOn()}>Edit To-Do</button> : null}
+                    </div>
+                    {todos.length > 0? <div id='todo-holder' className='main-element'>{this.displayTodos()}</div> : null}
+                </div>
+                {deleting? <button className='todo-button cancel-button' onClick={() => this.deleteOff()}>Cancel Delete</button> : null}
+                {editing? <button className='todo-button cancel-button' onClick={() => this.editOff()}>Cancel Edit</button> : null}
+                {creating? <button className='todo-button cancel-button' onClick={() => this.createOff()}>Cancel Create</button> : null}
             </div>
         );
     }
