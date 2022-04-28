@@ -7,10 +7,10 @@ class Todo extends React.Component {
         return(
             <div onClick={() => changeTodo(this.props.id)} className='todo-div'>
                 <h1>{this.props.title}</h1>
-                <h3>{this.props.status}</h3>
                 <div className='todo-description-div'>
                     <span className='todo-description'>{this.props.description}</span>
                 </div>
+                <h3>{this.props.status}</h3>
             </div>
         );
     }

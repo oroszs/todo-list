@@ -3,6 +3,7 @@
   --blue: rgb(0, 221, 255);
   --grey: rgb(104, 104, 104);
   --light-grey: rgb(191, 191, 191);
+  --lighter-grey: rgb(235, 235, 235);
   --dark-grey: rgb(32, 32, 32);
 }
 body {
@@ -130,10 +131,30 @@ body {
   border: solid black 5px;
 }
 .create-todo-element {
+  background-color: var(--lighter-grey);
   width: 90%;
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
+  border: solid black 2px;
+}
+#status-header {
+  padding: 20px;
+  padding-top: 5px;
+  font-size: 20pt;
+  margin: auto;
+}
+label {
+  margin-left: -40px;
+}
+#status-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.status-element{
+  flex: none;
 }
 .todo-description-div {
   color: black;

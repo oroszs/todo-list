@@ -1,4 +1,4 @@
-import './App.css';
+import './index.css';
 import Manager from './Components/Manager.js';
 function App() {
   return (

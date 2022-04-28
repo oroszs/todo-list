@@ -6,9 +6,8 @@ import Todo from './Todo.js';
 class Manager extends React.Component {
     constructor(props){
         super(props);
-        let todos = [];
         this.state = {
-            todos: todos,
+            todos: [],
             newTodo: null,
             editTodo: null,
             displayTodo: null,
@@ -23,9 +22,12 @@ class Manager extends React.Component {
                 <input className='create-todo-element' placeholder='Enter Title Here...' type='text' id='title' />
                 <textarea className='create-todo-element' placeholder='Enter Description Here...' id='description' />
                 <div className='create-todo-element'>
-                    <input type='radio' name='progress' value='Not Started' />Not Started
-                    <input type='radio' name='progress' value='In Progress' />In Progress
-                    <input type='radio' name='progress' value='Completed' />Completed
+                    <h3 id='status-header'>Status</h3>
+                    <div id='status-div'>
+                        <input id='not-started' className='status-element' type='radio' name='progress' value='Not Started' /><label htmlFor='not-started'>Not Started</label>
+                        <input id='in-progress' className='status-element' type='radio' name='progress' value='In Progress' /><label htmlFor='in-progress'>In Progress</label>
+                        <input id='completed' className='status-element' type='radio' name='progress' value='Completed' /><label htmlFor='completed'>Completed</label>
+                    </div>
                 </div>
                 <button className='create-todo-element' id='submit-button' onClick={() => this.saveTodo()}>Submit</button>
             </div>
@@ -39,9 +41,6 @@ class Manager extends React.Component {
     changeTodo(index) {
         let modState = this.state.modState;
         switch(modState) {
-            case 'View':
-                this.displayTodo(index);
-            break;
             case 'Edit':
                 this.editTodo(index);
             break;
@@ -49,6 +48,7 @@ class Manager extends React.Component {
                 this.deleteTodo(index);
             break;
             default:
+                this.displayTodo(index);
             break;
         }
     }
@@ -61,9 +61,12 @@ class Manager extends React.Component {
                 <input className='create-todo-element' type='text' id='title' placeholder={chosenTodo.title}/>
                 <textarea className='create-todo-element' id='description' placeholder={chosenTodo.description}/>
                 <div className='create-todo-element'>
-                    <input id='not-started' type='radio' name='progress' value='Not Started' />Not Started
-                    <input id='in-progress' type='radio' name='progress' value='In Progress' />In Progress
-                    <input id='completed' type='radio' name='progress' value='Completed' />Completed
+                    <h3 id='status-header'>Status</h3>
+                    <div id='status-div'>
+                        <input id='not-started' className='status-element' type='radio' name='progress' value='Not Started' /><label htmlFor='not-started'>Not Started</label>
+                        <input id='in-progress' className='status-element' type='radio' name='progress' value='In Progress' /><label htmlFor='in-progress'>In Progress</label>
+                        <input id='completed' className='status-element' type='radio' name='progress' value='Completed' /><label htmlFor='completed'>Completed</label>
+                    </div>
                 </div>
                 <button className='create-todo-element' id='submit-button' onClick={() => this.updateTodo()}>Submit</button>
             </div>
@@ -100,9 +103,20 @@ class Manager extends React.Component {
         });
     }
 
-    /*
-    create setmod() and cancelMod()
-    */
+    setMod(newState) {
+        this.setState({
+            modState: newState,
+        });
+    }
+
+    cancelMod() {
+        this.setState({
+            modState: null,
+            newTodo: null,
+            editTodo: null,
+            displayTodo: null,
+        });
+    }
 
     saveTodo() {
         let currentTodos = this.state.todos;
@@ -143,12 +157,10 @@ class Manager extends React.Component {
         let chosenTodo = currentTodos[index - 1];
         let displayTodo = (
             <div className='create-todo-div'>
-                <input className='create-todo-element' type='text' id='title' value={chosenTodo.title}/>
-                <textarea className='create-todo-element' id='description' value={chosenTodo.description}/>
+                <input className='create-todo-element' type='text' id='title' readOnly value={chosenTodo.title}/>
+                <textarea className='create-todo-element' id='description' readOnly value={chosenTodo.description}/>
                 <div className='create-todo-element'>
-                    <input id='not-started' type='radio' name='progress' value='Not Started' checked={chosenTodo.status==='Not Started' ? true: false} />Not Started
-                    <input id='in-progress' type='radio' name='progress' value='In Progress' checked={chosenTodo.status==='In Progress' ? true : false}/>In Progress
-                    <input id='completed' type='radio' name='progress' value='Completed' checked={chosenTodo.statues === 'Completed' ? true : false}/>Completed
+                    {chosenTodo.status}
                 </div>
             </div>
         );
