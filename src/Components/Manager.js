@@ -11,26 +11,13 @@ class Manager extends React.Component {
             todos: todos,
             newTodo: null,
             editTodo: null,
-            deleting: false,
-            editing: false,
-            creating: false,
+            displayTodo: null,
+            modState: null,
         }
         this.changeTodo = this.changeTodo.bind(this);
     }
 
-    createOff() {
-        this.setState({
-            creating: false,
-        });
-    }
-
     createTodo() {
-        let editing = this.state.editing;
-        let deleting = this.state.deleting;
-        let creating = this.state.creating;
-        if(editing || deleting || creating) {
-            return;
-        }
         let newOne = (
             <div className='create-todo-div'>
                 <input className='create-todo-element' placeholder='Enter Title Here...' type='text' id='title' />
@@ -45,36 +32,25 @@ class Manager extends React.Component {
         );
         this.setState({
             newTodo: newOne,
-            creating: true,
+            modState: 'Add',
         });
     }
 
     changeTodo(index) {
-        let deleting = this.state.deleting;
-        let editing = this.state.editing;
-        if(deleting) {
-            this.deleteTodo(index);
-        } else if (editing) {
-            this.editTodo(index);
+        let modState = this.state.modState;
+        switch(modState) {
+            case 'View':
+                this.displayTodo(index);
+            break;
+            case 'Edit':
+                this.editTodo(index);
+            break;
+            case 'Delete':
+                this.deleteTodo(index);
+            break;
+            default:
+            break;
         }
-    }
-
-    editOn() {
-        let editing = this.state.editing;
-        let deleting = this.state.deleting;
-        let creating = this.state.creating;
-        if(editing || deleting || creating) {
-            return;
-        }
-        this.setState({
-            editing: true,
-        });
-    }
-
-    editOff() {
-        this.setState({
-            editing: false,
-        });
     }
 
     editTodo(index) {
@@ -115,32 +91,18 @@ class Manager extends React.Component {
         });
     }
 
-    deleteOn() {
-        let editing = this.state.editing;
-        let deleting = this.state.deleting;
-        let creating = this.state.creating;
-        if(editing || deleting || creating) {
-            return;
-        }
-        this.setState({
-            deleting: true,
-        });
-    }
-
-    deleteOff() {
-        this.setState({
-            deleting: false,
-        });
-    }
-
     deleteTodo(index) {
         let currentTodos = this.state.todos;
         currentTodos.splice(index - 1, 1)
         this.setState({
             todos: currentTodos,
-            deleting: false,
+            modState: null,
         });
     }
+
+    /*
+    create setmod() and cancelMod()
+    */
 
     saveTodo() {
         let currentTodos = this.state.todos;
@@ -155,7 +117,7 @@ class Manager extends React.Component {
         this.setState({
             newTodo: null,
             todos: currentTodos,
-            creating: false,
+            modState: null,
         });
     }
 
@@ -165,7 +127,6 @@ class Manager extends React.Component {
         let description = document.querySelector('#description');
         let status = document.querySelector('input[type="radio"]:checked');
         let todo = new TodoObj;
-        console.log(title.value);
         todo.title = (title.value === '' ? title.placeholder : title.value);
         todo.description = (description.value === '' ? description.placeholder : description.value);
         todo.status = status.value;
@@ -173,7 +134,27 @@ class Manager extends React.Component {
         this.setState({
             editTodo: null,
             todos: currentTodos,
-            editing: false,
+            modState: null,
+        });
+    }
+
+    displayTodo(index) {
+        let currentTodos = this.state.todos;
+        let chosenTodo = currentTodos[index - 1];
+        let displayTodo = (
+            <div className='create-todo-div'>
+                <input className='create-todo-element' type='text' id='title' value={chosenTodo.title}/>
+                <textarea className='create-todo-element' id='description' value={chosenTodo.description}/>
+                <div className='create-todo-element'>
+                    <input id='not-started' type='radio' name='progress' value='Not Started' checked={chosenTodo.status==='Not Started' ? true: false} />Not Started
+                    <input id='in-progress' type='radio' name='progress' value='In Progress' checked={chosenTodo.status==='In Progress' ? true : false}/>In Progress
+                    <input id='completed' type='radio' name='progress' value='Completed' checked={chosenTodo.statues === 'Completed' ? true : false}/>Completed
+                </div>
+            </div>
+        );
+        this.setState({
+            displayTodo: displayTodo,
+            modState: 'View',
         });
     }
 
@@ -191,24 +172,22 @@ class Manager extends React.Component {
     render() {
         let newTodo = this.state.newTodo;
         let editTodo = this.state.editTodo;
-        let deleting = this.state.deleting;
-        let editing = this.state.editing;
-        let creating = this.state.creating;
+        let displayTodo = this.state.displayTodo;
         let todos = this.state.todos;
+        let modState= this.state.modState;
         return(
             <div id='wrapper'>
                 <div id='popup-wrapper'>
-                    {creating ? <div>{newTodo}</div> : null}
-                    {editing? <div>{editTodo}</div> : null}
+                    {newTodo? <div>{newTodo}</div> : null}
+                    {editTodo? <div>{editTodo}</div> : null}
+                    {displayTodo? <div>{displayTodo}</div> : null}
                 </div>
                 <div id='main-wrapper'>
                     <div id='todo-controls' className='main-element'>
-                        {!creating && !editing && !deleting ? <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button> : null}
-                        {todos.length > 0 && !creating && !editing && !deleting? <button className='todo-button' onClick={() => this.deleteOn()}>Remove To-Do</button> : null}
-                        {todos.length > 0 && !creating && !editing && !deleting? <button className='todo-button' onClick={() => this.editOn()}>Edit To-Do</button> : null}
-                        {deleting? <button className='todo-button cancel-button' onClick={() => this.deleteOff()}>Cancel Delete</button> : null}
-                        {editing? <button className='todo-button cancel-button' onClick={() => this.editOff()}>Cancel Edit</button> : null}
-                        {creating? <button className='todo-button cancel-button' onClick={() => this.createOff()}>Cancel Create</button> : null}
+                        {!modState ? <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button> : null}
+                        {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Delete')}>Delete To-Do</button> : null}
+                        {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Edit')}>Edit To-Do</button> : null}
+                        {modState? <button className='todo-button cancel-button' onClick={() => this.cancelMod()}>Cancel {modState}</button> : null}
                     </div>
                     {todos.length > 0? <div id='todo-holder' className='main-element full-holder'>{this.displayTodos()}</div> : <div id='todo-holder' className='main-element closed-holder'><span id='empty-message'>Click "Add To-Do" to Get Started!</span></div>}
                 </div>
