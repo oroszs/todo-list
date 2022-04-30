@@ -51,28 +51,19 @@ body {
 .main-element {
   flex: none;
 }
-.closed-holder {
-  width: 45%;
-  height: 250px;
-}
-.full-holder {
-  width: 1000px;
-  height: 475px;
-}
 #todo-holder {
-  overflow-y: auto;
+  width: fit-content;
+  max-width: 1325px;
   padding: 25px;
+  overflow-x: auto;
   box-sizing: border-box;
   border-radius: 10px;
   background-color: var(--dark-grey);
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  gap: 25px;
   align-items: center;
-  gap: 25px 25px;
-  flex-wrap: wrap;
   margin: auto;
-  transition: width 1s ease-out, height 1s ease-out;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -94,7 +85,6 @@ body {
   height: 200px;
   background-color: var(--grey);
   border-radius: 5px;
-  padding: 10px;
   box-sizing: border-box;
   color: white;
   flex: none;

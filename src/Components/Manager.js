@@ -138,9 +138,12 @@ class Manager extends React.Component {
         todo.deadline = deadline.value;
         todo.status = status.value;
         currentTodos.push(todo);
+        console.log(currentTodos);
+        let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
+        console.log(sortedTodos);
         this.setState({
             newTodo: null,
-            todos: currentTodos,
+            todos: sortedTodos,
             modState: null,
         });
     }
@@ -157,9 +160,12 @@ class Manager extends React.Component {
         todo.deadline = deadline.value;
         todo.status = status.value;
         currentTodos.splice(index - 1, 1, todo);
+        console.log(currentTodos);
+        let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
+        console.log(sortedTodos);
         this.setState({
             editTodo: null,
-            todos: currentTodos,
+            todos: sortedTodos,
             modState: null,
         });
     }
@@ -227,7 +233,7 @@ class Manager extends React.Component {
                         {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Edit')}>Edit To-Do</button> : null}
                         {modState? <button className='todo-button cancel-button' onClick={() => this.cancelMod()}>Cancel {modState}</button> : null}
                     </div>
-                    {todos.length > 0? <div id='todo-holder' className='main-element full-holder'>{this.displayTodos()}</div> : <div id='todo-holder' className='main-element closed-holder'><span id='empty-message'>Click "Add To-Do" to Get Started!</span></div>}
+                    {todos.length > 0? <div id='todo-holder' className='main-element'>{this.displayTodos()}</div> : <div id='todo-holder' className='main-element'><span id='empty-message'>Click "Add To-Do" to Get Started!</span></div>}
                     <div id='time-div'>
                         <h1 className='time-h1'>{convert.day(dateObj.getDay())}</h1>
                         <h1 className='time-h1'>{convert.month(dateObj.getMonth())} {dateObj.getDate()}</h1>
