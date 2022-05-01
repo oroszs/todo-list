@@ -46,6 +46,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 50px;
   align-items: center;
 }
 .main-element {
@@ -96,6 +97,7 @@ body {
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
+  margin-top: 50px;
 }
 .todo-button {
   flex: none;
@@ -177,7 +179,6 @@ label {
 }
 #time-div {
   margin: auto;
-  margin-top: 200px;
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -73,7 +73,7 @@ class Manager extends React.Component {
                         <input id='completed' className='status-element' type='radio' name='progress' value='Completed' /><label htmlFor='completed'>Completed</label>
                     </div>
                 </div>
-                <button className='create-todo-element' id='submit-button' onClick={() => this.updateTodo()}>Submit</button>
+                <button className='create-todo-element' id='submit-button' onClick={() => this.updateTodo(index)}>Submit</button>
             </div>
         );
         this.setState({
@@ -104,7 +104,7 @@ class Manager extends React.Component {
 
     deleteTodo(index) {
         let currentTodos = this.state.todos;
-        currentTodos.splice(index - 1, 1)
+        currentTodos.splice(index - 1, 1);
         this.setState({
             todos: currentTodos,
             modState: null,
@@ -138,9 +138,7 @@ class Manager extends React.Component {
         todo.deadline = deadline.value;
         todo.status = status.value;
         currentTodos.push(todo);
-        console.log(currentTodos);
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
-        console.log(sortedTodos);
         this.setState({
             newTodo: null,
             todos: sortedTodos,
@@ -159,10 +157,9 @@ class Manager extends React.Component {
         todo.description = (description.value === '' ? description.placeholder : description.value);
         todo.deadline = deadline.value;
         todo.status = status.value;
+        console.log(index);
         currentTodos.splice(index - 1, 1, todo);
-        console.log(currentTodos);
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
-        console.log(sortedTodos);
         this.setState({
             editTodo: null,
             todos: sortedTodos,
