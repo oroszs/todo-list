@@ -157,7 +157,6 @@ class Manager extends React.Component {
         todo.description = (description.value === '' ? description.placeholder : description.value);
         todo.deadline = deadline.value;
         todo.status = status.value;
-        console.log(index);
         currentTodos.splice(index - 1, 1, todo);
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
         this.setState({
@@ -192,18 +191,58 @@ class Manager extends React.Component {
         let todoComponents = currentTodos.map(obj => 
             {
                 index ++;
-                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} changeTodo={this.changeTodo}/>
+                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} changeTodo={this.changeTodo}/>
             });
         return todoComponents;
     }
 
+    updateDeadlines(){
+        let newTime = new Date();
+        let currentTodos = this.state.todos;
+        const convert = new DateConvert;
+        const MILLI_WEEK = 604800000;
+        const MILLI_DAY = 86400000;
+        const MILLI_HOUR = 3600000;
+
+        currentTodos.forEach(todo => {
+            if(todo.status !== 'Completed') {
+                let todoDate = new Date(Date.parse(todo.deadline)).getDate();
+                let todoMilli = Date.parse(todo.deadline);
+
+                let currentDate = newTime.getDate();
+                let currentMilli = Date.parse(newTime);
+
+                let milliDiff = todoMilli - currentMilli;
+
+                let sameDay = (milliDiff < MILLI_DAY && todoDate === currentDate);
+                let tomorrow = new Date(currentMilli + MILLI_DAY).getDate();
+
+                if(sameDay) {
+                    todo.deadlineString = 'Deadline: Today';
+                } else if (tomorrow === todoDate){
+                    todo.deadlineString = 'Deadline: Tomorrow';
+                } else if (milliDiff < MILLI_WEEK) {
+                    let todoDay = convert.day(new Date(Date.parse(todo.deadline)).getDay());
+                    todo.deadlineString = `Deadline: ${todoDay}`;
+                } else {
+                    let todoMonth = new Date(Date.parse(todo.deadline)).getMonth();
+                    todo.deadlineString = `Deadline: ${(todoMonth + 1) + ' / ' + (todoDate)}`
+                }
+                if (milliDiff < 0) {
+                    todo.deadlineString = 'Deadline: Passed';
+                } else if (milliDiff < MILLI_HOUR) {
+                    todo.deadlineString = 'Deadline: Approaching';
+                }
+            }
+        });
+        this.setState({
+            currentTime: newTime,
+        });
+    }
+
     componentDidMount() {
-        let currentTime = this.state.currentTime;
         setInterval(() => {
-            currentTime = new Date();
-            this.setState({
-                currentTime: currentTime,
-            });
+            this.updateDeadlines();
         }, 500);
     }
 

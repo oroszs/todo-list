@@ -16,7 +16,8 @@ class DateConvert {
         return militaryHour - 12;
     }
     minute (int) {
-        if(int.length === 1) {
+        let intString = JSON.stringify(int);
+        if(intString.length === 1) {
             let zero = '0';
             return zero += int;
         }
