@@ -39,6 +39,13 @@ class Manager extends React.Component {
         this.setState({
             newTodo: newOne,
             modState: 'Add',
+        }, () => {
+            let time = this.state.currentTime;
+            let datetime = document.querySelector('#date-time');
+            let timeString = new Date(time).toISOString();
+            datetime.value = timeString.slice(0, 16);
+            let status = document.querySelector('#not-started');
+            status.checked = true;
         });
     }
 

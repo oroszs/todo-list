@@ -141,7 +141,6 @@ body {
 #date-time {
   color: black;
   width: 90%;
-  -webkit-appearance: none;
 }
 .todo-title {
   overflow: hidden;
