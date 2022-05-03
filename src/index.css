@@ -41,7 +41,7 @@ body {
 #main-wrapper {
   position: relative;
   margin: auto;
-  width: 95%;
+  width: 100%;
   height: fit-content;
   display: flex;
   flex-direction: column;
@@ -129,6 +129,7 @@ body {
   padding: 10px;
   box-sizing: border-box;
   border: solid black 2px;
+  flex: none;
 }
 .todo-title {
   overflow: hidden;
@@ -181,9 +182,6 @@ label {
   width: 90%;
   height: 75px;
 }
-.create-todo-element {
-  flex: none;
-}
 #time-div {
   margin: auto;
   display: flex;
@@ -197,4 +195,89 @@ label {
 .time-h1 {
   flex: none;
   font-size: 25pt;
+}
+@media screen and (max-width: 1500px) {
+  .time-h1{
+    font-size: 15pt;
+  }
+  #empty-message {
+    font-size: 15pt;
+  }
+  .create-todo-div {
+    width: 400px;
+    height: 400px;
+  }
+  #status-header {
+    font-size: 15pt;
+  }
+  label {
+    margin-left: -20px;
+    font-size: 10pt;
+  }
+}
+@media screen and (max-width: 1400px) {
+  #todo-holder {
+    max-width: 1000px;
+  }
+}
+@media screen and (max-width: 1100px) {
+  #todo-holder {
+    max-width: 675px;
+  }
+}
+@media screen and (max-width: 750px) {
+  #todo-holder {
+    max-width: 350px;
+  }
+}
+@media screen and (max-width: 800px) {
+  #todo-controls {
+    width: 95%;
+  }
+  .todo-button {
+    font-size: 12pt;
+    width: 110px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .todo-div {
+    width: 280px;
+  }
+  #todo-holder {
+    gap: 15px;
+    padding: 15px;
+    width: 310px;
+  }
+  .time-h1{
+    font-size: 12pt;
+  }
+  .create-todo-div {
+    width: 300px;
+    height: 300px;
+    box-sizing: border-box;
+  }
+  #popup-wrapper {
+    transform: translate(-50%, -50%);
+    top: 50%;
+  }
+  #todo-controls {
+    height: 60px;
+  }
+  .todo-button {
+    font-size: 9pt;
+    width: 90px;
+  }
+  #main-wrapper{
+    gap: 100px;
+  }
+  label {
+    font-size: 8pt;
+    margin-left: -7px;
+  }
+  #status-div{
+    gap: 5px;
+  }
+  .create-todo-element {
+    padding: 5px;
+  }
 }
