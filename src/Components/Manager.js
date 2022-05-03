@@ -281,7 +281,7 @@ class Manager extends React.Component {
                     <div id='time-div'>
                         <h1 className='time-h1'>{convert.day(dateObj.getDay())}</h1>
                         <h1 className='time-h1'>{convert.month(dateObj.getMonth())} {dateObj.getDate()}</h1>
-                        <h1 className='time-h1'>{convert.hour(dateObj.getHours())}:{convert.minute(dateObj.getMinutes())} {dateObj.getHours() < 13 ? 'AM' : 'PM'}</h1>
+                        <h1 className='time-h1'>{convert.hour(dateObj.getHours())}:{convert.minute(dateObj.getMinutes())} {dateObj.getHours() < 12 ? 'AM' : 'PM'}</h1>
                     </div>
                 </div>
             </div>
