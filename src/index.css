@@ -134,6 +134,7 @@ body {
   color: black;
 }
 #date-time {
+  color: black;
   width: 90%;
 }
 .todo-title {
@@ -276,7 +277,7 @@ label {
     gap: 100px;
   }
   label {
-    font-size: 8pt;
+    font-size: 6pt;
     margin-left: -7px;
   }
   #status-div{
