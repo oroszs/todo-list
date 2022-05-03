@@ -199,7 +199,7 @@ class Manager extends React.Component {
         let todoComponents = currentTodos.map(obj => 
             {
                 index ++;
-                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} changeTodo={this.changeTodo}/>
+                return <Todo total={currentTodos.length} key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} changeTodo={this.changeTodo}/>
             });
         return todoComponents;
     }
