@@ -46,8 +46,13 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 75px;
   align-items: center;
+}
+.empty-wrapper {
+  gap: 100px;
+}
+.full-wrapper {
+  gap: 75px;
 }
 .main-element {
   flex: none;
@@ -273,9 +278,6 @@ label {
   .todo-button {
     font-size: 9pt;
     width: 90px;
-  }
-  #main-wrapper{
-    gap: 100px;
   }
   label {
     font-size: 6pt;

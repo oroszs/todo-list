@@ -262,7 +262,7 @@ class Manager extends React.Component {
                     {editTodo? <div>{editTodo}</div> : null}
                     {displayTodo? <div>{displayTodo}</div> : null}
                 </div>
-                <div id='main-wrapper'>
+                <div id='main-wrapper' className={todos.length === 0 ? 'empty-wrapper' : 'full-wrapper'}>
                     <div id='todo-controls' className='main-element'>
                         {!modState ? <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button> : null}
                         {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Delete')}>Delete To-Do</button> : null}
