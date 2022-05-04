@@ -13,7 +13,6 @@ class Manager extends React.Component {
             editTodo: null,
             displayTodo: null,
             modState: null,
-            currentTime: new Date(),
             convert: new DateConvert,
         }
         this.changeTodo = this.changeTodo.bind(this);
@@ -40,7 +39,7 @@ class Manager extends React.Component {
             newTodo: newOne,
             modState: 'Add',
         }, () => {
-            let time = this.state.currentTime;
+            let time = this.props.time;
             let datetime = document.querySelector('#date-time');
             let timeString = new Date(time);
             timeString.setMinutes(timeString.getMinutes() - timeString.getTimezoneOffset());
@@ -180,8 +179,8 @@ class Manager extends React.Component {
         let displayTodo = (
             <div className='create-todo-div'>
                 <input className='create-todo-element' type='text' id='title' readOnly value={chosenTodo.title}/>
-                <input className='create-todo-element' type='datetime-local' readOnly value={chosenTodo.deadline} />
                 <textarea className='create-todo-element' id='description' readOnly value={chosenTodo.description}/>
+                <input className='create-todo-element' type='datetime-local' readOnly value={chosenTodo.deadline} />
                 <div className='create-todo-element'>
                     {chosenTodo.status}
                 </div>
@@ -205,8 +204,8 @@ class Manager extends React.Component {
     }
 
     updateDeadlines(){
-        let newTime = new Date();
         let currentTodos = this.state.todos;
+        let time = this.props.time;
         const convert = new DateConvert;
         const MILLI_WEEK = 604800000;
         const MILLI_DAY = 86400000;
@@ -217,8 +216,8 @@ class Manager extends React.Component {
                 let todoDate = new Date(Date.parse(todo.deadline)).getDate();
                 let todoMilli = Date.parse(todo.deadline);
 
-                let currentDate = newTime.getDate();
-                let currentMilli = Date.parse(newTime);
+                let currentDate = time.getDate();
+                let currentMilli = Date.parse(time);
 
                 let milliDiff = todoMilli - currentMilli;
 
@@ -243,12 +242,9 @@ class Manager extends React.Component {
                 }
             }
         });
-        this.setState({
-            currentTime: newTime,
-        });
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
         setInterval(() => {
             this.updateDeadlines();
         }, 500);
@@ -260,9 +256,6 @@ class Manager extends React.Component {
         let displayTodo = this.state.displayTodo;
         let todos = this.state.todos;
         let modState= this.state.modState;
-        let time = this.state.currentTime;
-        let dateObj = new Date(Date.parse(time));
-        let convert = this.state.convert;
         return(
             <div id='wrapper'>
                 <div id='popup-wrapper'>
@@ -270,19 +263,14 @@ class Manager extends React.Component {
                     {editTodo? <div>{editTodo}</div> : null}
                     {displayTodo? <div>{displayTodo}</div> : null}
                 </div>
-                <div id='main-wrapper' className={todos.length === 0 ? 'empty-wrapper' : 'full-wrapper'}>
-                    <div id='todo-controls' className='main-element'>
+                <div id='main-wrapper'>
+                    <div id='todo-controls'>
                         {!modState ? <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button> : null}
                         {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Delete')}>Delete To-Do</button> : null}
                         {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Edit')}>Edit To-Do</button> : null}
                         {modState? <button className='todo-button cancel-button' onClick={() => this.cancelMod()}>Cancel {modState}</button> : null}
                     </div>
-                    {todos.length > 0? <div id='todo-holder' className='main-element'>{this.displayTodos()}</div> : <div id='todo-holder' className='main-element'><span id='empty-message'>Click "Add To-Do" to Get Started!</span></div>}
-                    <div id='time-div'>
-                        <h1 className='time-h1'>{convert.day(dateObj.getDay())}</h1>
-                        <h1 className='time-h1'>{convert.month(dateObj.getMonth())} {dateObj.getDate()}</h1>
-                        <h1 className='time-h1'>{convert.hour(dateObj.getHours())}:{convert.minute(dateObj.getMinutes())} {dateObj.getHours() < 12 ? 'AM' : 'PM'}</h1>
-                    </div>
+                    {todos.length > 0? <div id='todo-holder'>{this.displayTodos()}</div> : <div id='empty-todo-holder' ><span id='empty-message'>Click "Add To-Do" to Get Started!</span></div>}
                 </div>
             </div>
         );

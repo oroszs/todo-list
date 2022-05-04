@@ -31,9 +31,10 @@ body {
 }
 #popup-wrapper {
   position: absolute;
-  transform:translate(-50%, -85%);
+  --top-dist: 70%;
+  transform: translate(-50%, calc(var(--top-dist) * -1));
+  top: var(--top-dist);
   left: 50%;
-  top: 85%;
   width: 100%;
   height: fit-content;
   z-index: 5;
@@ -42,22 +43,32 @@ body {
   position: relative;
   margin: auto;
   width: 100%;
-  height: fit-content;
+  height: 500px;
+}
+#todo-controls {
+  --top-dist: 0%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  width: 75%;
+  height: 100px;
+  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
+  position: absolute;
+  transform: translate(-50%, calc(var(--top-dist) * -1));
+  left: 50%;
+  top: var(--top-dist);
 }
-.empty-wrapper {
-  gap: 100px;
-}
-.full-wrapper {
-  gap: 75px;
-}
-.main-element {
-  flex: none;
+#empty-todo-holder {
+  width: fit-content;
+  --top-dist: 50%;
+  box-sizing: border-box;
+  position: absolute;
+  transform: translate(-50%, calc(var(--top-dist) * -1));
+  left: 50%;
+  top: var(--top-dist);
 }
 #todo-holder {
+  --top-dist: 50%;
   width: fit-content;
   max-width: 1300px;
   overflow-x: auto;
@@ -69,6 +80,10 @@ body {
   margin: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  position: absolute;
+  transform: translate(-50%, calc(var(--top-dist) * -1));
+  left: 50%;
+  top: var(--top-dist);
 }
 #todo-holder::-webkit-scrollbar {
   display: none;
@@ -115,14 +130,6 @@ body {
   box-sizing: border-box;
   color: white;
 }
-#todo-controls {
-  display: flex;
-  width: 75%;
-  height: 100px;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-}
 .todo-button {
   flex: none;
   width: 150px;
@@ -137,8 +144,8 @@ body {
 .create-todo-div {
   position: relative;
   margin: auto;
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
   background-color: var(--blue);
   display: flex;
   flex-direction: column;
@@ -176,7 +183,8 @@ body {
   margin: auto;
 }
 label {
-  margin-left: -40px;
+  margin-left: -20px;
+  font-size: 10pt;
 }
 #status-div {
   display: flex;
@@ -222,6 +230,10 @@ label {
   align-items: center;
   width: 90%;
   height: fit-content;
+  position: absolute;
+  transform: translate(-50%, 0);
+  left: 50%;
+  bottom: 0px;
 }
 .time-h1 {
   flex: none;
@@ -234,16 +246,11 @@ label {
   #empty-message {
     font-size: 15pt;
   }
-  .create-todo-div {
-    width: 400px;
-    height: 400px;
-  }
   #status-header {
     font-size: 15pt;
   }
-  label {
-    margin-left: -20px;
-    font-size: 10pt;
+  #todo-controls {
+    --top-dist: -5%;
   }
 }
 @media screen and (max-width: 1400px) {
@@ -252,11 +259,17 @@ label {
   }
 }
 @media screen and (max-width: 1100px) {
+  #popup-wrapper {
+    --top-dist: 55%;
+  }
   #todo-holder {
     max-width: 660px;
   }
+  #todo-controls {
+    --top-dist: 105%;
+  }
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 755px) {
   #todo-holder {
     max-width: 340px;
   }
@@ -291,6 +304,7 @@ label {
     padding: 14px;
   }
   #todo-holder {
+    --top-dist: 30%;
     width: 308px;
   }
   .time-h1{
@@ -298,14 +312,11 @@ label {
   }
   .create-todo-div {
     width: 300px;
-    height: 300px;
+    height: 400px;
     box-sizing: border-box;
   }
-  #popup-wrapper {
-    transform: translate(-50%, -50%);
-    top: 50%;
-  }
   #todo-controls {
+    --top-dist: 100%;
     height: 60px;
   }
   .todo-button {
@@ -321,5 +332,9 @@ label {
   }
   .create-todo-element {
     padding: 5px;
+  }
+  #empty-message {
+    font-size: 12pt;
+    padding: 10px;
   }
 }
