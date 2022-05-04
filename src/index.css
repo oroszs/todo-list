@@ -233,7 +233,7 @@ label {
   position: absolute;
   transform: translate(-50%, 0);
   left: 50%;
-  bottom: 0px;
+  bottom: 10px;
 }
 .time-h1 {
   flex: none;
@@ -316,7 +316,10 @@ label {
     box-sizing: border-box;
   }
   #todo-controls {
-    --top-dist: 100%;
+    --bottom-dist: 0%;
+    transform:translate(-50%, calc(var(--bottom-dist) * -1));
+    top: initial;
+    bottom: var(--bottom-dist);
     height: 60px;
   }
   .todo-button {
