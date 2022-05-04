@@ -305,7 +305,6 @@ label {
     padding: 14px;
   }
   #todo-holder {
-    --top-dist: 30%;
     width: 308px;
   }
   .time-h1{
