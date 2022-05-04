@@ -317,7 +317,7 @@ label {
     box-sizing: border-box;
   }
   #todo-controls {
-    --bottom-dist: 10%;
+    --bottom-dist: 6%;
     height: 60px;
   }
   .todo-button {
