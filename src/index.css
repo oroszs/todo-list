@@ -71,6 +71,7 @@ body {
 #todo-holder {
   --top-dist: 50%;
   width: fit-content;
+  height: 500px;
   max-width: 1300px;
   overflow-x: auto;
   box-sizing: border-box;
