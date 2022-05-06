@@ -1,4 +1,6 @@
 :root {
+  --todo-padding: 20px;
+  --todo-height: 50px;
   --light-blue: rgb(233, 255, 254);
   --blue: rgb(0, 221, 255);
   --grey: rgb(104, 104, 104);
@@ -71,14 +73,15 @@ body {
 #todo-holder {
   --top-dist: 50%;
   width: fit-content;
-  height: 500px;
-  max-width: 1300px;
+  height: fit-content;
+  max-height: calc((var(--todo-height) * 6) + (var(--todo-padding) * 7));
   overflow-x: auto;
   box-sizing: border-box;
   border-radius: 10px;
   background-color: var(--dark-grey);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  flex-wrap: wrap;
   margin: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -100,22 +103,6 @@ body {
   position: relative;
   margin: auto;
 }
-.first-todo {
-  padding: 20px;
-  padding-right: 10px;
-}
-.middle-todo {
-  padding: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.last-todo {
-  padding: 20px;
-  padding-left: 10px;
-}
-.only-todo {
-  padding: 20px;
-}
 .todo-wrapper {
   box-sizing: border-box;
   flex: none;
@@ -123,14 +110,34 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+.only-todo {
+  padding: var(--todo-padding);
+}
+.first-todo {
+  padding: var(--todo-padding);
+  padding-bottom: calc(var(--todo-padding) / 2);
+}
+.last-todo {
+  padding: var(--todo-padding);
+  padding-top: calc(var(--todo-padding) / 2);
+}
+.middle-todo {
+  padding: var(--todo-padding);
+  padding-top: calc(var(--todo-padding) / 2);
+  padding-bottom: calc(var(--todo-padding) / 2);
+}
 .todo-div {
   flex: none;
   width: 300px;
-  height: 200px;
+  height: var(--todo-height);
   background-color: var(--grey);
   border-radius: 5px;
   box-sizing: border-box;
   color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .todo-button {
   flex: none;
@@ -175,8 +182,7 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding-left: 20px;
-  padding-right: 20px;
+  flex: none;
 }
 #status-header {
   padding: 20px;
