@@ -7,26 +7,27 @@ import DateConvert from '../Utils/DateConvert.js';
 class Manager extends React.Component {
     constructor(props){
         super(props);
-        let time = this.props.time;
+        let newTime = this.props.time;
+        
         let sampleTodos = [
             {
                 title: 'Work',
                 description: 'Go to work',
-                deadline: time,
+                deadline: newTime,
                 deadlineString: '',
                 status: 'In Progress',
             },
             {
                 title: 'Food',
                 description: 'Eat something',
-                deadline: time,
+                deadline: newTime,
                 deadlineString: '',
                 status: 'Not Completed',
             },
             {
                 title: 'Dogs',
                 description: 'Walk the dogs',
-                deadline: time,
+                deadline: newTime,
                 deadlineString: '',
                 status: 'Not Completed',
             }
