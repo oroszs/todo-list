@@ -1,6 +1,10 @@
 :root {
+  --todo-padding: 20px;
+  --todo-width: 300px;
+  --todo-height: 50px;
   --light-blue: rgb(233, 255, 254);
   --blue: rgb(0, 221, 255);
+  --dark-blue: rgb(0, 70, 81);
   --grey: rgb(104, 104, 104);
   --light-grey: rgb(191, 191, 191);
   --lighter-grey: rgb(235, 235, 235);
@@ -69,15 +73,16 @@ body {
   top: var(--top-dist);
 }
 #todo-holder {
-  --top-dist: 50%;
-  width: fit-content;
-  max-width: 1300px;
-  overflow-x: auto;
+  --top-dist: 70%;
+  width: auto;
+  height: fit-content;
+  max-height: calc((var(--todo-height) * 6) + (var(--todo-padding) * 7));
+  padding: var(--todo-padding);
+  gap: var(--todo-padding);
+  overflow: auto;
   box-sizing: border-box;
-  border-radius: 10px;
-  background-color: var(--dark-grey);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -85,6 +90,8 @@ body {
   transform: translate(-50%, calc(var(--top-dist) * -1));
   left: 50%;
   top: var(--top-dist);
+  background-color: var(--dark-blue);
+  border-radius: 10px;
 }
 #todo-holder::-webkit-scrollbar {
   display: none;
@@ -99,22 +106,6 @@ body {
   position: relative;
   margin: auto;
 }
-.first-todo {
-  padding: 20px;
-  padding-right: 10px;
-}
-.middle-todo {
-  padding: 20px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-.last-todo {
-  padding: 20px;
-  padding-left: 10px;
-}
-.only-todo {
-  padding: 20px;
-}
 .todo-wrapper {
   box-sizing: border-box;
   flex: none;
@@ -124,12 +115,16 @@ body {
 }
 .todo-div {
   flex: none;
-  width: 300px;
-  height: 200px;
-  background-color: var(--grey);
-  border-radius: 5px;
+  width: var(--todo-width);
+  height: var(--todo-height);
+  background-color: var(--blue);
+  border-radius: 30px;
   box-sizing: border-box;
-  color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .todo-button {
   flex: none;
@@ -174,8 +169,23 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  padding-left: 20px;
-  padding-right: 20px;
+  flex: none;
+  margin: 2px;
+}
+.todo-deadline-string {
+  font-size: 12pt;
+  color: black;
+}
+.todo-checkmark{
+  position: absolute;
+  right: 31px;
+  margin-bottom: 15px;
+  font-size: 20pt;
+}
+.todo-square {
+  position: absolute;
+  right: 35px;
+  font-size: 15pt;
 }
 #status-header {
   padding: 20px;
