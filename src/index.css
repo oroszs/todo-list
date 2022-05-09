@@ -63,9 +63,19 @@ body {
   left: 50%;
   top: var(--top-dist);
 }
+.test {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  background-color: red;
+  z-index: 10;
+}
 #empty-todo-holder {
   width: fit-content;
-  --top-dist: 50%;
+  --top-dist: 60%;
   box-sizing: border-box;
   position: absolute;
   transform: translate(-50%, calc(var(--top-dist) * -1));
@@ -73,10 +83,10 @@ body {
   top: var(--top-dist);
 }
 #todo-holder {
-  --top-dist: 70%;
+  --top-dist: 60%;
   width: auto;
   height: fit-content;
-  max-height: calc((var(--todo-height) * 6) + (var(--todo-padding) * 7));
+  max-height: calc((var(--todo-height) * 5) + (var(--todo-padding) * 6));
   padding: var(--todo-padding);
   gap: var(--todo-padding);
   overflow: auto;
@@ -125,6 +135,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  box-shadow: 0px 0px 5px var(--blue);
 }
 .todo-button {
   flex: none;
