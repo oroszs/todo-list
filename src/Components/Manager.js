@@ -9,15 +9,14 @@ class Manager extends React.Component {
         super(props);
         this.state = {
             todos: [],
-            newTodo: null,
-            editTodo: null,
             displayTodo: null,
-            modState: null,
+            displayTodoIndex: null,
             convert: new DateConvert,
             columnLength: 5,
+            mode: null,
         }
-        this.changeTodo = this.changeTodo.bind(this);
         this.completeTodo = this.completeTodo.bind(this);
+        this.displayTodo = this.displayTodo.bind(this);
     }
 
     createTodo() {
@@ -34,12 +33,11 @@ class Manager extends React.Component {
                         <input id='completed' className='status-element' type='radio' name='progress' value='Completed' /><label htmlFor='completed'>Completed</label>
                     </div>
                 </div>
-                <button className='create-todo-element' id='submit-button' onClick={() => this.saveTodo()}>Submit</button>
             </div>
         );
         this.setState({
-            newTodo: newOne,
-            modState: 'Add',
+            displayTodo: newOne,
+            mode: 'Create',
         }, () => {
             let time = this.props.time;
             let datetime = document.querySelector('#date-time');
@@ -48,31 +46,15 @@ class Manager extends React.Component {
             datetime.value = timeString.toISOString().slice(0, 16);
             let status = document.querySelector('#not-started');
             status.checked = true;
+            this.stopProp();
         });
     }
 
-    changeTodo(index) {
-        let modState = this.state.modState;
-        switch(modState) {
-            case 'Edit':
-                this.editTodo(index);
-            break;
-            case 'Delete':
-                this.deleteTodo(index);
-            break;
-            default:
-                this.displayTodo(index);
-            break;
-        }
-    }
-
-    editTodo(index) {
-        let currentTodos = this.state.todos;
-        let chosenTodo = currentTodos[index - 1];
+    displayTodo(index) {
         let editOne = (
             <div className='create-todo-div'>
-                <input className='create-todo-element' type='text' id='title' placeholder={chosenTodo.title}/>
-                <textarea className='create-todo-element' id='description' placeholder={chosenTodo.description}/>
+                <input className='create-todo-element' type='text' id='title'/>
+                <textarea className='create-todo-element' id='description'/>
                 <input className='create-todo-element' id='date-time' type='datetime-local' />
                 <div className='create-todo-element'>
                     <h3 id='status-header'>Status</h3>
@@ -82,12 +64,18 @@ class Manager extends React.Component {
                         <input id='completed' className='status-element' type='radio' name='progress' value='Completed' /><label htmlFor='completed'>Completed</label>
                     </div>
                 </div>
-                <button className='create-todo-element' id='submit-button' onClick={() => this.updateTodo(index)}>Submit</button>
             </div>
         );
         this.setState({
-            editTodo: editOne,
+            displayTodo: editOne,
+            displayTodoIndex: index,
+            mode: 'Display',
         }, () => {
+            let title = document.querySelector('#title');
+            let description = document.querySelector('#description');
+            let chosenTodo = this.state.todos[this.state.displayTodoIndex - 1];
+            title.value = chosenTodo.title;
+            description.value = chosenTodo.description;
             let notStart = document.querySelector('#not-started');
             let inProg = document.querySelector('#in-progress');
             let complete = document.querySelector('#completed');
@@ -105,9 +93,16 @@ class Manager extends React.Component {
                 default:
                 break;
             }
-
             let deadline = document.querySelector('#date-time');
-            deadline.value=chosenTodo.deadline;
+            deadline.value = chosenTodo.deadline;
+            this.stopProp();
+        });
+    }
+
+    stopProp() {
+        let createDiv = document.querySelector('.create-todo-div');
+        createDiv.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
     }
 
@@ -116,81 +111,33 @@ class Manager extends React.Component {
         currentTodos.splice(index - 1, 1);
         this.setState({
             todos: currentTodos,
-            modState: null,
-        });
-    }
-
-    setMod(newState) {
-        this.setState({
-            modState: newState,
-        });
-    }
-
-    cancelMod() {
-        this.setState({
-            modState: null,
-            newTodo: null,
-            editTodo: null,
-            displayTodo: null,
         });
     }
 
     saveTodo() {
+        let mode = this.state.mode;
         let currentTodos = this.state.todos;
         let title = document.querySelector('#title');
         let description = document.querySelector('#description');
         let status = document.querySelector('input[type="radio"]:checked');
         let deadline = document.querySelector('#date-time');
         let todo = new TodoObj;
-        todo.title = title.value;
-        todo.description = description.value;
+        let index = this.state.displayTodoIndex;
+        todo.title = (title.value === ''? 'Untitled' : title.value);
+        todo.description = (description.value === ''? '' : description.value);
         todo.deadline = deadline.value;
         todo.status = status.value;
-        currentTodos.push(todo);
+        if(mode === 'Create') {
+            currentTodos.push(todo);
+        } else if (mode === 'Display') {
+            currentTodos.splice(index - 1, 1, todo);
+        }
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
         this.setState({
-            newTodo: null,
+            displayTodo: null,
+            displayTodoIndex: null,
             todos: sortedTodos,
-            modState: null,
-        });
-    }
-
-    updateTodo(index) {
-        let currentTodos = this.state.todos;
-        let title = document.querySelector('#title');
-        let description = document.querySelector('#description');
-        let deadline = document.querySelector('#date-time');
-        let status = document.querySelector('input[type="radio"]:checked');
-        let todo = new TodoObj;
-        todo.title = (title.value === '' ? title.placeholder : title.value);
-        todo.description = (description.value === '' ? description.placeholder : description.value);
-        todo.deadline = deadline.value;
-        todo.status = status.value;
-        currentTodos.splice(index - 1, 1, todo);
-        let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
-        this.setState({
-            editTodo: null,
-            todos: sortedTodos,
-            modState: null,
-        });
-    }
-
-    displayTodo(index) {
-        let currentTodos = this.state.todos;
-        let chosenTodo = currentTodos[index - 1];
-        let displayTodo = (
-            <div className='create-todo-div'>
-                <input className='create-todo-element' type='text' id='title' readOnly value={chosenTodo.title}/>
-                <textarea className='create-todo-element' id='description' readOnly value={chosenTodo.description}/>
-                <input className='create-todo-element' type='datetime-local' readOnly value={chosenTodo.deadline} />
-                <div className='create-todo-element'>
-                    {chosenTodo.status}
-                </div>
-            </div>
-        );
-        this.setState({
-            displayTodo: displayTodo,
-            modState: 'View',
+            mode: null,
         });
     }
 
@@ -199,6 +146,7 @@ class Manager extends React.Component {
         let todos = this.state.todos;
         if(todos[index - 1].status === 'In Progress') {
             todos[index - 1].status = 'Completed';
+            todos[index - 1].deadlineString = null;
         } else if (todos[index - 1].status === 'Completed') {
             todos[index - 1].status = 'In Progress';
         }
@@ -210,17 +158,19 @@ class Manager extends React.Component {
     displayTodos() {
         let currentTodos = this.state.todos;
         let index = 0;
-        let columnLength = this.state.columnLength;
         let todoComponents = currentTodos.map(obj => 
             {
                 index ++;
-                return <Todo columnLength={columnLength} total={currentTodos.length} key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} changeTodo={this.changeTodo} completeTodo={this.completeTodo}/>
+                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} completeTodo={this.completeTodo} displayTodo={this.displayTodo}/>
             });
         return todoComponents;
     }
 
     updateDeadlines(){
         let currentTodos = this.state.todos;
+        if(currentTodos.length === 0) {
+            return;
+        }
         let time = this.props.time;
         const convert = new DateConvert;
         const MILLI_WEEK = 604800000;
@@ -267,26 +217,19 @@ class Manager extends React.Component {
     }
 
     render() {
-        let newTodo = this.state.newTodo;
-        let editTodo = this.state.editTodo;
         let displayTodo = this.state.displayTodo;
-        let todos = this.state.todos;
-        let modState= this.state.modState;
         return(
             <div id='wrapper'>
-                <div id='popup-wrapper'>
-                    {newTodo? <div>{newTodo}</div> : null}
-                    {editTodo? <div>{editTodo}</div> : null}
-                    {displayTodo? <div>{displayTodo}</div> : null}
-                </div>
-                <div id='main-wrapper'>
-                    <div id='todo-controls'>
-                        {!modState ? <button className='todo-button' onClick={() => this.createTodo()}>Add To-Do</button> : null}
-                        {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Delete')}>Delete To-Do</button> : null}
-                        {todos.length > 0 && !modState? <button className='todo-button' onClick={() => this.setMod('Edit')}>Edit To-Do</button> : null}
-                        {modState? <button className='todo-button cancel-button' onClick={() => this.cancelMod()}>Cancel {modState}</button> : null}
+                {displayTodo? 
+                <div id='displayBG' onClick={(e) => this.saveTodo(e)}>
+                    {displayTodo}
+                </div> 
+                : null}
+                <div id='todo-holder'>
+                    {this.displayTodos()}
+                    <div className='todo-wrapper'>
+                        <div className='todo-div' id='add-todo' onClick={() => this.createTodo()}>+</div>
                     </div>
-                    {todos.length > 0? <div id='todo-holder'>{this.displayTodos()}</div> : <div id='empty-todo-holder' ><span id='empty-message'>Click "Add To-Do" to Get Started!</span></div>}
                 </div>
             </div>
         );

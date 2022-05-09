@@ -33,57 +33,23 @@ body {
   top: 0px;
   bottom: 0px;
 }
-#popup-wrapper {
-  position: absolute;
-  --top-dist: 70%;
-  transform: translate(-50%, calc(var(--top-dist) * -1));
-  top: var(--top-dist);
-  left: 50%;
-  width: 100%;
-  height: fit-content;
-  z-index: 5;
-}
-#main-wrapper {
-  position: absolute;
-  top: 0px;
+#wrapper {
   left: 0px;
   right: 0px;
+  top: 0px;
   bottom: 0px;
-}
-#todo-controls {
-  --top-dist: 18.5%;
-  display: flex;
-  width: 75%;
-  height: 100px;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
   position: absolute;
-  transform: translate(-50%, calc(var(--top-dist) * -1));
-  left: 50%;
-  top: var(--top-dist);
 }
-.test {
-  width: 10px;
-  height: 10px;
+#displayBG {
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
   position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -60%);
-  background-color: red;
-  z-index: 10;
-}
-#empty-todo-holder {
-  width: fit-content;
-  --top-dist: 60%;
-  box-sizing: border-box;
-  position: absolute;
-  transform: translate(-50%, calc(var(--top-dist) * -1));
-  left: 50%;
-  top: var(--top-dist);
+  z-index: 6;
 }
 #todo-holder {
-  --top-dist: 60%;
+  --top-dist: 50%;
   width: auto;
   height: fit-content;
   max-height: calc((var(--todo-height) * 5) + (var(--todo-padding) * 6));
@@ -117,6 +83,7 @@ body {
   margin: auto;
 }
 .todo-wrapper {
+  cursor: pointer;
   box-sizing: border-box;
   flex: none;
   display: flex;
@@ -137,19 +104,17 @@ body {
   align-items: center;
   box-shadow: 0px 0px 5px var(--blue);
 }
-.todo-button {
-  flex: none;
-  width: 150px;
-  height: fit-content;
-  border-radius: 10px;
-  border: solid black 2px;
-  padding: 5px;
-  background-color: var(--blue);
-  color: black;
-  font-size: 15pt;
+#add-todo {
+  font-size: 25pt;
+  font-weight: bolder;
+  cursor: pointer;
 }
 .create-todo-div {
-  position: relative;
+  z-index: 7;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform:translate(-50%, -50%);
   margin: auto;
   width: 400px;
   height: 400px;
