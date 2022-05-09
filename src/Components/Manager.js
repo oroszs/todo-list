@@ -7,82 +7,17 @@ import DateConvert from '../Utils/DateConvert.js';
 class Manager extends React.Component {
     constructor(props){
         super(props);
-        let newTime = this.props.time;
-        
-        let sampleTodos = [
-            {
-                title: 'Work',
-                description: 'Go to work',
-                deadline: newTime,
-                deadlineString: '',
-                status: 'In Progress',
-            },
-            {
-                title: 'Food',
-                description: 'Eat something',
-                deadline: newTime,
-                deadlineString: '',
-                status: 'Not Completed',
-            },
-            {
-                title: 'Dogs',
-                description: 'Walk the dogs',
-                deadline: newTime,
-                deadlineString: '',
-                status: 'Not Completed',
-            },
-            {
-                title: 'Work',
-                description: 'Go to work',
-                deadline: time,
-                deadlineString: '',
-                status: 'In Progress',
-            },
-            {
-                title: 'Food',
-                description: 'Eat something',
-                deadline: time,
-                deadlineString: '',
-                status: 'Not Completed',
-            },
-            {
-                title: 'Dogs',
-                description: 'Walk the dogs',
-                deadline: time,
-                deadlineString: '',
-                status: 'Not Completed',
-            },
-            {
-                title: 'Work',
-                description: 'Go to work',
-                deadline: time,
-                deadlineString: '',
-                status: 'In Progress',
-            },
-            {
-                title: 'Food',
-                description: 'Eat something',
-                deadline: time,
-                deadlineString: '',
-                status: 'Not Completed',
-            },
-            {
-                title: 'Dogs',
-                description: 'Walk the dogs',
-                deadline: time,
-                deadlineString: '',
-                status: 'Not Completed',
-            },
-        ];
         this.state = {
-            todos: sampleTodos,
+            todos: [],
             newTodo: null,
             editTodo: null,
             displayTodo: null,
             modState: null,
             convert: new DateConvert,
+            columnLength: 5,
         }
         this.changeTodo = this.changeTodo.bind(this);
+        this.completeTodo = this.completeTodo.bind(this);
     }
 
     createTodo() {
@@ -259,13 +194,27 @@ class Manager extends React.Component {
         });
     }
 
+    completeTodo(e, index) {
+        e.stopPropagation();
+        let todos = this.state.todos;
+        if(todos[index - 1].status === 'In Progress') {
+            todos[index - 1].status = 'Completed';
+        } else if (todos[index - 1].status === 'Completed') {
+            todos[index - 1].status = 'In Progress';
+        }
+        this.setState({
+            todos: todos,
+        });
+    }
+
     displayTodos() {
         let currentTodos = this.state.todos;
         let index = 0;
+        let columnLength = this.state.columnLength;
         let todoComponents = currentTodos.map(obj => 
             {
                 index ++;
-                return <Todo total={currentTodos.length} key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} changeTodo={this.changeTodo}/>
+                return <Todo columnLength={columnLength} total={currentTodos.length} key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} changeTodo={this.changeTodo} completeTodo={this.completeTodo}/>
             });
         return todoComponents;
     }
