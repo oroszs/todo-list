@@ -2,6 +2,7 @@ import React from 'react';
 import '../index.css';
 import TodoObj from '../Utils/TodoObj';
 import Todo from './Todo.js';
+import FullTodo from './FullTodo.js';
 import DateConvert from '../Utils/DateConvert.js';
 
 class Manager extends React.Component {
@@ -9,34 +10,18 @@ class Manager extends React.Component {
         super(props);
         this.state = {
             todos: [],
-            displayTodo: null,
             displayTodoIndex: null,
-            convert: new DateConvert,
+            convert: new DateConvert(),
             columnLength: 5,
             mode: null,
         }
         this.completeTodo = this.completeTodo.bind(this);
         this.displayTodo = this.displayTodo.bind(this);
+        this.deleteTodo = this.deleteTodo.bind(this);
     }
 
     createTodo() {
-        let newOne = (
-            <div className='create-todo-div'>
-                <input className='create-todo-element' placeholder='Enter Title Here...' type='text' id='title' />
-                <textarea className='create-todo-element' placeholder='Enter Description Here...' id='description' />
-                <input className = 'create-todo-element' type='datetime-local' id='date-time' />
-                <div className='create-todo-element'>
-                    <h3 id='status-header'>Status</h3>
-                    <div id='status-div'>
-                        <input id='not-started' className='status-element' type='radio' name='progress' value='Not Started' /><label htmlFor='not-started'>Not Started</label>
-                        <input id='in-progress' className='status-element' type='radio' name='progress' value='In Progress' /><label htmlFor='in-progress'>In Progress</label>
-                        <input id='completed' className='status-element' type='radio' name='progress' value='Completed' /><label htmlFor='completed'>Completed</label>
-                    </div>
-                </div>
-            </div>
-        );
         this.setState({
-            displayTodo: newOne,
             mode: 'Create',
         }, () => {
             let time = this.props.time;
@@ -51,23 +36,7 @@ class Manager extends React.Component {
     }
 
     displayTodo(index) {
-        let editOne = (
-            <div className='create-todo-div'>
-                <input className='create-todo-element' type='text' id='title'/>
-                <textarea className='create-todo-element' id='description'/>
-                <input className='create-todo-element' id='date-time' type='datetime-local' />
-                <div className='create-todo-element'>
-                    <h3 id='status-header'>Status</h3>
-                    <div id='status-div'>
-                        <input id='not-started' className='status-element' type='radio' name='progress' value='Not Started' /><label htmlFor='not-started'>Not Started</label>
-                        <input id='in-progress' className='status-element' type='radio' name='progress' value='In Progress' /><label htmlFor='in-progress'>In Progress</label>
-                        <input id='completed' className='status-element' type='radio' name='progress' value='Completed' /><label htmlFor='completed'>Completed</label>
-                    </div>
-                </div>
-            </div>
-        );
         this.setState({
-            displayTodo: editOne,
             displayTodoIndex: index,
             mode: 'Display',
         }, () => {
@@ -111,6 +80,8 @@ class Manager extends React.Component {
         currentTodos.splice(index - 1, 1);
         this.setState({
             todos: currentTodos,
+            displayTodoIndex: null,
+            mode: null,
         });
     }
 
@@ -121,9 +92,9 @@ class Manager extends React.Component {
         let description = document.querySelector('#description');
         let status = document.querySelector('input[type="radio"]:checked');
         let deadline = document.querySelector('#date-time');
-        let todo = new TodoObj;
+        let todo = new TodoObj();
         let index = this.state.displayTodoIndex;
-        todo.title = (title.value === ''? 'Untitled' : title.value);
+        todo.title = title.value === '' ? 'To-Do' : title.value;
         todo.description = (description.value === ''? '' : description.value);
         todo.deadline = deadline.value;
         todo.status = status.value;
@@ -134,7 +105,6 @@ class Manager extends React.Component {
         }
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
         this.setState({
-            displayTodo: null,
             displayTodoIndex: null,
             todos: sortedTodos,
             mode: null,
@@ -172,7 +142,7 @@ class Manager extends React.Component {
             return;
         }
         let time = this.props.time;
-        const convert = new DateConvert;
+        const convert = new DateConvert();
         const MILLI_WEEK = 604800000;
         const MILLI_DAY = 86400000;
         const MILLI_HOUR = 3600000;
@@ -217,13 +187,18 @@ class Manager extends React.Component {
     }
 
     render() {
-        let displayTodo = this.state.displayTodo;
+        let mode = this.state.mode;
+        let index = this.state.displayTodoIndex;
+        let buttonMessage = (mode === 'Create' ? 'Cancel' : 'Delete');
         return(
             <div id='wrapper'>
-                {displayTodo? 
-                <div id='displayBG' onClick={(e) => this.saveTodo(e)}>
-                    {displayTodo}
-                </div> 
+                {mode? 
+                <div>
+                    <div id='displayBG' onClick={(e) => this.saveTodo(e)}>
+                        <FullTodo />
+                    </div>
+                    <button id='delete-button' onClick={() => this.deleteTodo(index)}>{buttonMessage}</button>
+                </div>
                 : null}
                 <div id='todo-holder'>
                     {this.displayTodos()}

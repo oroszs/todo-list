@@ -4,7 +4,7 @@
   --todo-height: 50px;
   --light-blue: rgb(233, 255, 254);
   --blue: rgb(0, 221, 255);
-  --dark-blue: rgb(0, 70, 81);
+  --dark-blue: rgb(0, 55, 63);
   --grey: rgb(104, 104, 104);
   --light-grey: rgb(191, 191, 191);
   --lighter-grey: rgb(235, 235, 235);
@@ -16,8 +16,10 @@ body {
 }
 #main-title {
   color: rgb(32, 32, 32);
-  font-size: 35pt;
+  font-size: 30pt;
   padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-radius: 20px;
   background-color: var(--blue);
   width: fit-content;
@@ -47,18 +49,20 @@ body {
   bottom: 0px;
   position: absolute;
   z-index: 6;
+  background-color: rgba(0, 0, 0, 0.75);
 }
 #todo-holder {
   --top-dist: 50%;
   width: auto;
   height: fit-content;
-  max-height: calc((var(--todo-height) * 5) + (var(--todo-padding) * 6));
+  max-height: calc((var(--todo-height) * 6) + (var(--todo-padding) * 7));
   padding: var(--todo-padding);
   gap: var(--todo-padding);
   overflow: auto;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -71,16 +75,6 @@ body {
 }
 #todo-holder::-webkit-scrollbar {
   display: none;
-}
-#empty-message {
-  color: white;
-  box-sizing: border-box;
-  padding: 20px;
-  background-color: var(--grey);
-  font-size: 20pt;
-  border-radius: 10px;
-  position: relative;
-  margin: auto;
 }
 .todo-wrapper {
   cursor: pointer;
@@ -125,6 +119,7 @@ body {
   align-items: center;
   border-radius: 20px;
   border: solid black 5px;
+  padding-bottom: 20px;
 }
 .create-todo-element {
   text-align: center;
@@ -136,6 +131,27 @@ body {
   border: solid black 2px;
   flex: none;
   color: black;
+}
+#create-todo-title {
+  padding-top: 5px;
+}
+#delete-button {
+  --bottom-dist: 5%;
+  position: absolute;
+  bottom: var(--bottom-dist);
+  left: 50%;
+  transform: translate(-50%, calc(var(--bottom-dist) * -1));
+  width: 360px;
+  height: 50px;
+  z-index: 100;
+  background-color: rgb(255, 112, 112);
+  border: solid white 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: black;
+  font-size: 15pt;
+  font-weight: bold;
+  cursor: pointer;
 }
 #date-time {
   color: black;
@@ -163,10 +179,10 @@ body {
   right: 35px;
   font-size: 15pt;
 }
-#status-header {
+.todo-header {
   padding: 20px;
-  padding-top: 5px;
-  font-size: 20pt;
+  padding-bottom: 5px;
+  font-size: 15pt;
   margin: auto;
 }
 label {
@@ -226,53 +242,27 @@ label {
   flex: none;
   font-size: 25pt;
 }
-@media screen and (max-width: 1500px) {
-  .time-h1{
-    font-size: 15pt;
-  }
-  #empty-message {
-    font-size: 15pt;
-  }
-  #status-header {
-    font-size: 15pt;
-  }
-}
 @media screen and (max-width: 1400px) {
   #todo-holder {
     max-width: 980px;
   }
 }
 @media screen and (max-width: 1100px) {
-  #popup-wrapper {
-    --top-dist: 55%;
-  }
   #todo-holder {
     max-width: 660px;
-  }
-  #todo-controls {
-    --bottom-dist: 5%;
-    transform:translate(-50%, calc(var(--bottom-dist) * -1));
-    top: initial;
-    bottom: var(--bottom-dist);
   }
 }
 @media screen and (max-width: 755px) {
   #todo-holder {
     max-width: 340px;
   }
-}
-@media screen and (max-width: 800px) {
-  #todo-controls {
-    width: 95%;
-  }
-  .todo-button {
+  .time-h1{
     font-size: 12pt;
-    width: 110px;
   }
 }
 @media screen and (max-width: 500px) {
-  .todo-div {
-    width: 280px;
+  :root {
+    --todo-width: 280px;
   }
   .first-todo {
     padding: 14px;
@@ -293,8 +283,8 @@ label {
   #todo-holder {
     width: 308px;
   }
-  .time-h1{
-    font-size: 12pt;
+  #delete-button {
+    width: 280px;
   }
   .create-todo-div {
     width: 300px;
