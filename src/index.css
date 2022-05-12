@@ -1,7 +1,10 @@
 :root {
+  --todo-button-bottom-dist: 6%;
   --todo-padding: 20px;
   --todo-width: 300px;
   --todo-height: 50px;
+  --light-red: rgb(255, 112, 112);
+  --light-green: rgb(81, 255, 125);
   --light-blue: rgb(233, 255, 254);
   --blue: rgb(0, 221, 255);
   --dark-blue: rgb(0, 55, 63);
@@ -135,16 +138,25 @@ body {
 #create-todo-title {
   padding-top: 5px;
 }
-#delete-button {
-  --bottom-dist: 5%;
+#button-holder {
   position: absolute;
-  bottom: var(--bottom-dist);
+  bottom: var(--todo-button-bottom-dist);
   left: 50%;
-  transform: translate(-50%, calc(var(--bottom-dist) * -1));
-  width: 360px;
+  transform: translate(-50%, calc(var(--todo-button-bottom-dist) * -1));
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  z-index: 10;
+  gap: 10px;
+}
+.todo-button {
+  position: relative;
+  flex: none;
+  width: 250px;
   height: 50px;
-  z-index: 100;
-  background-color: rgb(255, 112, 112);
   border: solid white 5px;
   box-sizing: border-box;
   border-radius: 5px;
@@ -152,6 +164,12 @@ body {
   font-size: 15pt;
   font-weight: bold;
   cursor: pointer;
+}
+#confirm-button {
+  background-color: var(--light-green);
+}
+#delete-button {
+  background-color: var(--light-red);
 }
 #date-time {
   color: black;

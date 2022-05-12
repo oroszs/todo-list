@@ -197,7 +197,10 @@ class Manager extends React.Component {
                     <div id='displayBG' onClick={(e) => this.saveTodo(e)}>
                         <FullTodo />
                     </div>
-                    <button id='delete-button' onClick={() => this.deleteTodo(index)}>{buttonMessage}</button>
+                    <div id='button-holder'>
+                        <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo(index)}>Confirm</button>
+                        <button className='todo-button' id='delete-button' onClick={() => this.deleteTodo(index)}>{buttonMessage}</button>
+                    </div>
                 </div>
                 : null}
                 <div id='todo-holder'>
