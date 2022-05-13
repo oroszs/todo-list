@@ -4,6 +4,7 @@
   --todo-width: 300px;
   --todo-height: 50px;
   --light-red: rgb(255, 112, 112);
+  --green: rgb(5, 185, 50);
   --light-green: rgb(81, 255, 125);
   --light-blue: rgb(233, 255, 254);
   --blue: rgb(0, 221, 255);
@@ -115,7 +116,6 @@ body {
   margin: auto;
   width: 400px;
   height: 400px;
-  background-color: var(--blue);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -123,6 +123,7 @@ body {
   border-radius: 20px;
   border: solid black 5px;
   padding-bottom: 20px;
+  background-color: var(--blue);
 }
 .create-todo-element {
   text-align: center;
@@ -191,11 +192,19 @@ body {
   right: 31px;
   margin-bottom: 15px;
   font-size: 20pt;
+  font-weight: bold;
 }
 .todo-square {
   position: absolute;
   right: 35px;
   font-size: 15pt;
+  font-weight: bold;
+}
+.todo-delete {
+  position: absolute;
+  left: 30px;
+  font-size: 16pt;
+  font-weight: bold;
 }
 .todo-header {
   padding: 20px;
@@ -301,9 +310,6 @@ label {
   #todo-holder {
     width: 308px;
   }
-  #delete-button {
-    width: 280px;
-  }
   .create-todo-div {
     width: 300px;
     height: 400px;
@@ -315,7 +321,7 @@ label {
   }
   .todo-button {
     font-size: 9pt;
-    width: 90px;
+    width: 140px;
   }
   label {
     font-size: 6pt;

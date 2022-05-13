@@ -11,6 +11,7 @@ class Manager extends React.Component {
         this.state = {
             todos: [],
             displayTodoIndex: null,
+            displayTodoStatus: null,
             convert: new DateConvert(),
             columnLength: 5,
             mode: null,
@@ -75,9 +76,13 @@ class Manager extends React.Component {
         });
     }
 
-    deleteTodo(index) {
+    deleteTodo(e, index) {
+        e.stopPropagation();
         let currentTodos = this.state.todos;
-        currentTodos.splice(index - 1, 1);
+        let mode = this.state.mode;
+        if(mode !== 'Create') {
+            currentTodos.splice(index - 1, 1);
+        }
         this.setState({
             todos: currentTodos,
             displayTodoIndex: null,
@@ -114,7 +119,7 @@ class Manager extends React.Component {
     completeTodo(e, index) {
         e.stopPropagation();
         let todos = this.state.todos;
-        if(todos[index - 1].status === 'In Progress') {
+        if(todos[index - 1].status === 'In Progress' || todos[index - 1].status === 'Not Started') {
             todos[index - 1].status = 'Completed';
             todos[index - 1].deadlineString = null;
         } else if (todos[index - 1].status === 'Completed') {
@@ -131,7 +136,7 @@ class Manager extends React.Component {
         let todoComponents = currentTodos.map(obj => 
             {
                 index ++;
-                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} completeTodo={this.completeTodo} displayTodo={this.displayTodo}/>
+                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} deleteTodo={this.deleteTodo} completeTodo={this.completeTodo} displayTodo={this.displayTodo}/>
             });
         return todoComponents;
     }
@@ -199,7 +204,7 @@ class Manager extends React.Component {
                     </div>
                     <div id='button-holder'>
                         <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo(index)}>Confirm</button>
-                        <button className='todo-button' id='delete-button' onClick={() => this.deleteTodo(index)}>{buttonMessage}</button>
+                        <button className='todo-button' id='delete-button' onClick={(e) => this.deleteTodo(e, index)}>{buttonMessage}</button>
                     </div>
                 </div>
                 : null}
