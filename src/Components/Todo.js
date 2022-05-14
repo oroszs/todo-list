@@ -4,9 +4,10 @@ import '../index.css';
 class Todo extends React.Component {
     render() {
         let displayTodo = this.props.displayTodo;
+        let classString = `todo-div ${this.props.colorClass}`;
         return(
             <div onClick={() => displayTodo(this.props.id)} className='todo-wrapper'>
-                <div className='todo-div'>
+                <div className={classString}>
                     <h3 className='todo-title'>{this.props.title}</h3>
                     <span className='todo-deadline-string'>{this.props.deadlineString}</span>
                     {this.props.status === 'Completed' ? <span className='todo-checkmark'>&#10003;</span> : null}

@@ -13,6 +13,8 @@
   --light-grey: rgb(191, 191, 191);
   --lighter-grey: rgb(235, 235, 235);
   --dark-grey: rgb(32, 32, 32);
+  --red: rgb(190, 0, 0);
+  --yellow: rgb(234, 255, 0);
 }
 body {
   text-align: center;
@@ -74,7 +76,7 @@ body {
   transform: translate(-50%, calc(var(--top-dist) * -1));
   left: 50%;
   top: var(--top-dist);
-  background-color: var(--dark-blue);
+  background-color: var(--dark-grey);
   border-radius: 10px;
 }
 #todo-holder::-webkit-scrollbar {
@@ -92,7 +94,6 @@ body {
   flex: none;
   width: var(--todo-width);
   height: var(--todo-height);
-  background-color: var(--blue);
   border-radius: 30px;
   box-sizing: border-box;
   color: black;
@@ -101,11 +102,24 @@ body {
   justify-content: center;
   align-items: center;
   box-shadow: 0px 0px 5px var(--blue);
+  transition: background-color 1s;
 }
 #add-todo {
   font-size: 25pt;
   font-weight: bolder;
   cursor: pointer;
+}
+.normal-todo{
+  background-color: var(--blue);
+}
+.soon-todo {
+  background-color: var(--yellow);
+}
+.passed-todo {
+  background-color: var(--red);
+}
+.complete-todo {
+  background-color: var(--green);
 }
 .create-todo-div {
   z-index: 7;
@@ -123,7 +137,6 @@ body {
   border-radius: 20px;
   border: solid black 5px;
   padding-bottom: 20px;
-  background-color: var(--blue);
 }
 .create-todo-element {
   text-align: center;

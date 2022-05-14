@@ -8,10 +8,11 @@ import DateConvert from '../Utils/DateConvert.js';
 class Manager extends React.Component {
     constructor(props){
         super(props);
+        let storedTodos = JSON.parse(window.localStorage.getItem('storedTodos'));
+        let currentTodos = (storedTodos ? storedTodos : []);
         this.state = {
-            todos: [],
+            todos: currentTodos,
             displayTodoIndex: null,
-            displayTodoStatus: null,
             convert: new DateConvert(),
             columnLength: 5,
             mode: null,
@@ -19,6 +20,11 @@ class Manager extends React.Component {
         this.completeTodo = this.completeTodo.bind(this);
         this.displayTodo = this.displayTodo.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
+    }
+
+    storeTodos(todos) {
+        let todoJSON = JSON.stringify(todos);
+        window.localStorage.setItem('storedTodos', todoJSON);
     }
 
     createTodo() {
@@ -83,6 +89,7 @@ class Manager extends React.Component {
         if(mode !== 'Create') {
             currentTodos.splice(index - 1, 1);
         }
+        this.storeTodos(currentTodos);
         this.setState({
             todos: currentTodos,
             displayTodoIndex: null,
@@ -102,6 +109,7 @@ class Manager extends React.Component {
         todo.title = title.value === '' ? 'To-Do' : title.value;
         todo.description = (description.value === ''? '' : description.value);
         todo.deadline = deadline.value;
+        todo.colorClass = 'normal-todo';
         todo.status = status.value;
         if(mode === 'Create') {
             currentTodos.push(todo);
@@ -109,6 +117,7 @@ class Manager extends React.Component {
             currentTodos.splice(index - 1, 1, todo);
         }
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
+        this.storeTodos(sortedTodos);
         this.setState({
             displayTodoIndex: null,
             todos: sortedTodos,
@@ -125,6 +134,7 @@ class Manager extends React.Component {
         } else if (todos[index - 1].status === 'Completed') {
             todos[index - 1].status = 'In Progress';
         }
+        this.storeTodos(todos);
         this.setState({
             todos: todos,
         });
@@ -136,7 +146,7 @@ class Manager extends React.Component {
         let todoComponents = currentTodos.map(obj => 
             {
                 index ++;
-                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} deleteTodo={this.deleteTodo} completeTodo={this.completeTodo} displayTodo={this.displayTodo}/>
+                return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} colorClass={obj.colorClass} deleteTodo={this.deleteTodo} completeTodo={this.completeTodo} displayTodo={this.displayTodo}/>
             });
         return todoComponents;
     }
@@ -178,9 +188,15 @@ class Manager extends React.Component {
                 }
                 if (milliDiff < 0) {
                     todo.deadlineString = 'Deadline: Passed';
+                    todo.colorClass = 'passed-todo';
                 } else if (milliDiff < MILLI_HOUR) {
                     todo.deadlineString = 'Deadline: Approaching';
+                    todo.colorClass = 'soon-todo';
+                } else {
+                    todo.colorClass = 'normal-todo';
                 }
+            } else {
+                todo.colorClass = 'complete-todo';
             }
         });
     }
@@ -195,12 +211,13 @@ class Manager extends React.Component {
         let mode = this.state.mode;
         let index = this.state.displayTodoIndex;
         let buttonMessage = (mode === 'Create' ? 'Cancel' : 'Delete');
+        let colorClass = (index ? this.state.todos[index - 1].colorClass : 'normal-todo');
         return(
             <div id='wrapper'>
                 {mode? 
                 <div>
                     <div id='displayBG' onClick={(e) => this.saveTodo(e)}>
-                        <FullTodo />
+                        <FullTodo colorClass={colorClass}/>
                     </div>
                     <div id='button-holder'>
                         <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo(index)}>Confirm</button>
@@ -211,7 +228,7 @@ class Manager extends React.Component {
                 <div id='todo-holder'>
                     {this.displayTodos()}
                     <div className='todo-wrapper'>
-                        <div className='todo-div' id='add-todo' onClick={() => this.createTodo()}>+</div>
+                        <div className='todo-div normal-todo' id='add-todo' onClick={() => this.createTodo()}>+</div>
                     </div>
                 </div>
             </div>
