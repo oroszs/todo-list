@@ -109,11 +109,14 @@ class Manager extends React.Component {
         todo.title = title.value === '' ? 'To-Do' : title.value;
         todo.description = (description.value === ''? '' : description.value);
         todo.deadline = deadline.value;
-        todo.colorClass = 'normal-todo';
+        todo.deadlineString = currentTodos[index - 1].deadlineString;
+        todo.colorClass = (index ? currentTodos[index - 1].colorClass : 'normal-todo');
         todo.status = status.value;
+        let cur = currentTodos[index - 1];
         if(mode === 'Create') {
             currentTodos.push(todo);
-        } else if (mode === 'Display') {
+        } else if (mode === 'Display' && cur.title !== todo.title || cur.description !== todo.description || cur.deadline !== todo.deadline || cur.deadlineString !== todo.deadlineString || cur.colorClass !== todo.colorClass || cur.status !== todo.status) {
+            console.log('overwritten!');
             currentTodos.splice(index - 1, 1, todo);
         }
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
@@ -153,6 +156,7 @@ class Manager extends React.Component {
 
     updateDeadlines(){
         let currentTodos = this.state.todos;
+        let savedTodos = window.localStorage.getItem('storedTodos');
         if(currentTodos.length === 0) {
             return;
         }
@@ -162,7 +166,7 @@ class Manager extends React.Component {
         const MILLI_DAY = 86400000;
         const MILLI_HOUR = 3600000;
 
-        currentTodos.forEach(todo => {
+        let newTodos = currentTodos.map(todo => {
             if(todo.status !== 'Completed') {
                 let todoDate = new Date(Date.parse(todo.deadline)).getDate();
                 let todoMilli = Date.parse(todo.deadline);
@@ -198,10 +202,22 @@ class Manager extends React.Component {
             } else {
                 todo.colorClass = 'complete-todo';
             }
+            return todo;
         });
+        console.log('updated!');
+        if(JSON.stringify(newTodos) !== savedTodos) {
+            this.storeTodos(newTodos);
+            console.log('stored!');
+        }
+        if(JSON.stringify(newTodos) !== JSON.stringify(this.state.todos)) {
+            console.log('saved!');
+            this.setState({
+                todos: newTodos,
+            });
+        }
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
         setInterval(() => {
             this.updateDeadlines();
         }, 500);
