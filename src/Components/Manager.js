@@ -109,13 +109,12 @@ class Manager extends React.Component {
         todo.title = title.value === '' ? 'To-Do' : title.value;
         todo.description = (description.value === ''? '' : description.value);
         todo.deadline = deadline.value;
-        todo.deadlineString = currentTodos[index - 1].deadlineString;
+        todo.deadlineString = (index ? currentTodos[index - 1].deadlineString : '');
         todo.colorClass = (index ? currentTodos[index - 1].colorClass : 'normal-todo');
         todo.status = status.value;
-        let cur = currentTodos[index - 1];
         if(mode === 'Create') {
             currentTodos.push(todo);
-        } else if (mode === 'Display' && cur.title !== todo.title || cur.description !== todo.description || cur.deadline !== todo.deadline || cur.deadlineString !== todo.deadlineString || cur.colorClass !== todo.colorClass || cur.status !== todo.status) {
+        } else if (mode === 'Display') {
             console.log('overwritten!');
             currentTodos.splice(index - 1, 1, todo);
         }
