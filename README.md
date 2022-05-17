@@ -1,5 +1,6 @@
 # To-Do List
-This application allows the user to add, delete, and edit 'to-do' list items.
+This application allows the user to add, delete, and edit 'to-do' list items.\
+to-do elements are sorted by deadline date, and change color based on deadline and completion status.
 
 # Getting Started with Create React App
 

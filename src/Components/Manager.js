@@ -115,7 +115,6 @@ class Manager extends React.Component {
         if(mode === 'Create') {
             currentTodos.push(todo);
         } else if (mode === 'Display') {
-            console.log('overwritten!');
             currentTodos.splice(index - 1, 1, todo);
         }
         let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
@@ -203,13 +202,10 @@ class Manager extends React.Component {
             }
             return todo;
         });
-        console.log('updated!');
         if(JSON.stringify(newTodos) !== savedTodos) {
             this.storeTodos(newTodos);
-            console.log('stored!');
         }
         if(JSON.stringify(newTodos) !== JSON.stringify(this.state.todos)) {
-            console.log('saved!');
             this.setState({
                 todos: newTodos,
             });
