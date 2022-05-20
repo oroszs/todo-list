@@ -20,7 +20,7 @@ class App extends React.Component {
   }
 
   render() {
-    const CONVERT = new DateConvert;
+    const CONVERT = new DateConvert();
     let time = this.state.time;
 
       return (

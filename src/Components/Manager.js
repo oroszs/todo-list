@@ -33,7 +33,8 @@ class Manager extends React.Component {
         }, () => {
             let time = this.props.time;
             let datetime = document.querySelector('#date-time');
-            let timeString = new Date(time);
+            let future = Date.parse(time) + 3600000;
+            let timeString = new Date(future);
             timeString.setMinutes(timeString.getMinutes() - timeString.getTimezoneOffset());
             datetime.value = timeString.toISOString().slice(0, 16);
             let status = document.querySelector('#not-started');
