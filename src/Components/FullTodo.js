@@ -9,8 +9,13 @@ class FullTodo extends React.Component {
                 <input className='create-todo-element' placeholder='Enter Title Here...' type='text' id='title' />
                 <h3 className='todo-header'>Description</h3>
                 <textarea className='create-todo-element' placeholder='Enter Description Here...' id='description' />
-                <h3 className='todo-header'>Deadline</h3>
-                <input className = 'create-todo-element' type='datetime-local' id='date-time' />
+                {this.props.deadline ? 
+                    <div>
+                        <h3 className='todo-header'>Deadline</h3>
+                        <input className = 'create-todo-element' type='datetime-local' id='date-time' />
+                    </div> :
+                    <input className='create-todo-element' type='button' id='add-deadline' value='Add Deadline' />
+                }
                 <h3 className='todo-header'>Status</h3>
                 <div className='create-todo-element' id='status-div'>
                     <input id='not-started' className='status-element' type='radio' name='progress' value='Not Started' /><label htmlFor='not-started'>Not Started</label>

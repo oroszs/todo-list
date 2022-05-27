@@ -36,7 +36,9 @@ class Manager extends React.Component {
             let future = Date.parse(time) + 3600000;
             let timeString = new Date(future);
             timeString.setMinutes(timeString.getMinutes() - timeString.getTimezoneOffset());
-            datetime.value = timeString.toISOString().slice(0, 16);
+            if(datetime) {
+                datetime.value = timeString.toISOString().slice(0, 16);
+            }
             let status = document.querySelector('#not-started');
             status.checked = true;
             this.stopProp();
@@ -71,7 +73,9 @@ class Manager extends React.Component {
                 break;
             }
             let deadline = document.querySelector('#date-time');
-            deadline.value = chosenTodo.deadline;
+            if(deadline) {
+                deadline.value = chosenTodo.deadline;
+            }
             this.stopProp();
         });
     }
@@ -109,7 +113,9 @@ class Manager extends React.Component {
         let index = this.state.displayTodoIndex;
         todo.title = title.value === '' ? 'To-Do' : title.value;
         todo.description = (description.value === ''? '' : description.value);
-        todo.deadline = deadline.value;
+        if(deadline) {
+            todo.deadline = deadline.value;
+        }
         todo.deadlineString = (index ? currentTodos[index - 1].deadlineString : '');
         todo.colorClass = (index ? currentTodos[index - 1].colorClass : 'normal-todo');
         todo.status = status.value;
@@ -166,7 +172,7 @@ class Manager extends React.Component {
         const MILLI_HOUR = 3600000;
 
         let newTodos = currentTodos.map(todo => {
-            if(todo.status !== 'Completed') {
+            if(todo.status !== 'Completed' && todo.deadline !== undefined) {
                 let todoDate = new Date(Date.parse(todo.deadline)).getDate();
                 let todoMilli = Date.parse(todo.deadline);
 
@@ -199,7 +205,11 @@ class Manager extends React.Component {
                     todo.colorClass = 'normal-todo';
                 }
             } else {
-                todo.colorClass = 'complete-todo';
+                if(todo.status === 'Completed') {
+                    todo.colorClass = 'complete-todo';
+                } else {
+                    todo.colorClass = 'normal-todo';
+                }
             }
             return todo;
         });
@@ -224,12 +234,13 @@ class Manager extends React.Component {
         let index = this.state.displayTodoIndex;
         let buttonMessage = (mode === 'Create' ? 'Cancel' : 'Delete');
         let colorClass = (index ? this.state.todos[index - 1].colorClass : 'normal-todo');
+        let deadline = (index ? this.state.todos[index - 1].deadline : null);
         return(
             <div id='wrapper'>
                 {mode? 
                 <div>
                     <div id='displayBG' onClick={(e) => this.saveTodo(e)}>
-                        <FullTodo colorClass={colorClass}/>
+                        <FullTodo deadline={deadline} colorClass={colorClass}/>
                     </div>
                     <div id='button-holder'>
                         <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo(index)}>Confirm</button>

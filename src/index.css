@@ -152,6 +152,9 @@ body {
   flex: none;
   color: black;
 }
+#add-deadline {
+  margin-top: 20px;
+}
 #create-todo-title {
   padding-top: 5px;
 }
