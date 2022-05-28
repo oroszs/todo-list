@@ -14,7 +14,7 @@ class FullTodo extends React.Component {
                         <h3 className='todo-header'>Deadline</h3>
                         <input className = 'create-todo-element' type='datetime-local' id='date-time' />
                     </div> :
-                    <input className='create-todo-element' type='button' id='add-deadline' value='Add Deadline' />
+                    <input className='create-todo-element' type='button' id='add-deadline' value='Add Deadline' onClick={() => this.props.addDeadline()} />
                 }
                 <h3 className='todo-header'>Status</h3>
                 <div className='create-todo-element' id='status-div'>

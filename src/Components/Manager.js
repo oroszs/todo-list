@@ -20,6 +20,7 @@ class Manager extends React.Component {
         this.completeTodo = this.completeTodo.bind(this);
         this.displayTodo = this.displayTodo.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
+        this.addDeadline = this.addDeadline.bind(this);
     }
 
     storeTodos(todos) {
@@ -31,17 +32,8 @@ class Manager extends React.Component {
         this.setState({
             mode: 'Create',
         }, () => {
-            let time = this.props.time;
-            let datetime = document.querySelector('#date-time');
-            let future = Date.parse(time) + 3600000;
-            let timeString = new Date(future);
-            timeString.setMinutes(timeString.getMinutes() - timeString.getTimezoneOffset());
-            if(datetime) {
-                datetime.value = timeString.toISOString().slice(0, 16);
-            }
             let status = document.querySelector('#not-started');
             status.checked = true;
-            this.stopProp();
         });
     }
 
@@ -76,14 +68,6 @@ class Manager extends React.Component {
             if(deadline) {
                 deadline.value = chosenTodo.deadline;
             }
-            this.stopProp();
-        });
-    }
-
-    stopProp() {
-        let createDiv = document.querySelector('.create-todo-div');
-        createDiv.addEventListener('click', (e) => {
-            e.stopPropagation();
         });
     }
 
@@ -157,6 +141,26 @@ class Manager extends React.Component {
                 return <Todo key={index} id={index} title={obj.title} description={obj.description} status={obj.status} deadlineString={obj.deadlineString} colorClass={obj.colorClass} deleteTodo={this.deleteTodo} completeTodo={this.completeTodo} displayTodo={this.displayTodo}/>
             });
         return todoComponents;
+    }
+
+    addDeadline() {
+        let index = this.state.displayTodoIndex;
+        let todos = this.state.todos;
+        todos[index - 1].deadline = new Date();
+        this.setState({
+            todos: todos,
+        }, () => {
+            this.setDeadline();
+        });
+    }
+
+    setDeadline() {
+        let time = this.props.time;
+        let datetime = document.querySelector('#date-time');
+        let future = Date.parse(time) + 3600000;
+        let timeString = new Date(future);
+        timeString.setMinutes(timeString.getMinutes() - timeString.getTimezoneOffset());
+        datetime.value = timeString.toISOString().slice(0, 16);
     }
 
     updateDeadlines(){
@@ -234,14 +238,12 @@ class Manager extends React.Component {
         let index = this.state.displayTodoIndex;
         let buttonMessage = (mode === 'Create' ? 'Cancel' : 'Delete');
         let colorClass = (index ? this.state.todos[index - 1].colorClass : 'normal-todo');
-        let deadline = (index ? this.state.todos[index - 1].deadline : null);
+        let deadline = (index ? this.state.todos[index - 1].deadline : tempTodo.deadline);
         return(
             <div id='wrapper'>
                 {mode? 
                 <div>
-                    <div id='displayBG' onClick={(e) => this.saveTodo(e)}>
-                        <FullTodo deadline={deadline} colorClass={colorClass}/>
-                    </div>
+                    <FullTodo addDeadline={this.addDeadline} deadline={deadline} colorClass={colorClass}/>
                     <div id='button-holder'>
                         <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo(index)}>Confirm</button>
                         <button className='todo-button' id='delete-button' onClick={(e) => this.deleteTodo(e, index)}>{buttonMessage}</button>
