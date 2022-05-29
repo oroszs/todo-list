@@ -140,6 +140,7 @@ body {
   border-radius: 20px;
   border: solid black 5px;
   padding-bottom: 20px;
+  transition: background-color 1s;
 }
 .create-todo-element {
   text-align: center;

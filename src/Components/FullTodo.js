@@ -2,14 +2,14 @@ import React from 'react';
 import '../index.css';
 class FullTodo extends React.Component {
     render() {
-        let classString = `create-todo-div ${this.props.colorClass}`;
+        let classString = `create-todo-div ${this.props.fullTodo.colorClass}`;
         return (
             <div className={classString}>
                 <h3 className='todo-header' id='create-todo-title'>Title</h3>
                 <input className='create-todo-element' placeholder='Enter Title Here...' type='text' id='title' />
                 <h3 className='todo-header'>Description</h3>
                 <textarea className='create-todo-element' placeholder='Enter Description Here...' id='description' />
-                {this.props.deadline ? 
+                {this.props.fullTodo.deadline ? 
                     <div>
                         <h3 className='todo-header'>Deadline</h3>
                         <input className = 'create-todo-element' type='datetime-local' id='date-time' />

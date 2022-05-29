@@ -12,6 +12,7 @@ class Manager extends React.Component {
         let currentTodos = (storedTodos ? storedTodos : []);
         this.state = {
             todos: currentTodos,
+            tempTodo: null,
             displayTodoIndex: null,
             convert: new DateConvert(),
             columnLength: 5,
@@ -29,7 +30,10 @@ class Manager extends React.Component {
     }
 
     createTodo() {
+        let todo = new Todo();
+        todo.colorClass = 'normal-todo';
         this.setState({
+            tempTodo: todo,
             mode: 'Create',
         }, () => {
             let status = document.querySelector('#not-started');
@@ -144,23 +148,15 @@ class Manager extends React.Component {
     }
 
     addDeadline() {
-        let index = this.state.displayTodoIndex;
-        let todos = this.state.todos;
-        todos[index - 1].deadline = new Date();
-        this.setState({
-            todos: todos,
-        }, () => {
-            this.setDeadline();
-        });
-    }
-
-    setDeadline() {
         let time = this.props.time;
-        let datetime = document.querySelector('#date-time');
         let future = Date.parse(time) + 3600000;
         let timeString = new Date(future);
         timeString.setMinutes(timeString.getMinutes() - timeString.getTimezoneOffset());
-        datetime.value = timeString.toISOString().slice(0, 16);
+        let setTodo = new Todo();
+        setTodo.deadline = timeString.toISOString().slice(0, 16);
+        this.setState({
+            tempTodo: setTodo,
+        });
     }
 
     updateDeadlines(){
@@ -237,15 +233,15 @@ class Manager extends React.Component {
         let mode = this.state.mode;
         let index = this.state.displayTodoIndex;
         let buttonMessage = (mode === 'Create' ? 'Cancel' : 'Delete');
-        let colorClass = (index ? this.state.todos[index - 1].colorClass : 'normal-todo');
-        let deadline = (index ? this.state.todos[index - 1].deadline : tempTodo.deadline);
+        let fullTodo = (mode === 'Create' ? this.state.tempTodo  : this.state.todos[index - 1]);
         return(
             <div id='wrapper'>
                 {mode? 
                 <div>
-                    <FullTodo addDeadline={this.addDeadline} deadline={deadline} colorClass={colorClass}/>
+                    <div id='displayBG' onClick={() => this.saveTodo()}/>
+                    <FullTodo addDeadline={this.addDeadline} fullTodo={fullTodo}/>
                     <div id='button-holder'>
-                        <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo(index)}>Confirm</button>
+                        <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo()}>Confirm</button>
                         <button className='todo-button' id='delete-button' onClick={(e) => this.deleteTodo(e, index)}>{buttonMessage}</button>
                     </div>
                 </div>
