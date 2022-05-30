@@ -142,10 +142,14 @@ body {
   padding-bottom: 20px;
   transition: background-color 1s;
 }
+#deadline-wrapper {
+  width: 100%;
+}
 .create-todo-element {
   text-align: center;
   background-color: var(--lighter-grey);
   width: 90%;
+  height: fit-content;
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
