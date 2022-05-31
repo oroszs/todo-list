@@ -129,7 +129,24 @@ class Manager extends React.Component {
         } else if (mode === 'Display') {
             currentTodos.splice(index - 1, 1, todo);
         }
-        let sortedTodos = currentTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
+        let deadlineTodos = [];
+        let nonDeadlineTodos = [];
+        currentTodos.forEach(todo => {
+            if(todo.deadline) {
+                deadlineTodos.push(todo);
+            } else {
+                nonDeadlineTodos.push(todo);
+            }
+        });
+        let sortedTodos = [];
+        if(deadlineTodos.length > 0) {
+            sortedTodos = deadlineTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
+        }
+        if(nonDeadlineTodos.length > 0) {
+            nonDeadlineTodos.forEach(todo => {
+                sortedTodos.unshift(todo);
+            });
+        }
         this.storeTodos(sortedTodos);
         this.setState({
             displayTodoIndex: null,
