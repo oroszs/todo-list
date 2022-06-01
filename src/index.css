@@ -354,9 +354,6 @@ label {
   #status-div{
     gap: 5px;
   }
-  .create-todo-element {
-    padding: 5px;
-  }
   #empty-message {
     font-size: 12pt;
     padding: 10px;
