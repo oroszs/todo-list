@@ -149,7 +149,6 @@ body {
   text-align: center;
   background-color: var(--lighter-grey);
   width: 90%;
-  height: fit-content;
   border-radius: 5px;
   padding: 10px;
   box-sizing: border-box;
