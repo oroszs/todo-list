@@ -14,7 +14,7 @@ class FullTodo extends React.Component {
                         <h3 className='todo-header'>Deadline</h3>
                         <input className = 'create-todo-element' type='datetime-local' id='date-time' onChange={() => this.props.updateDisplayTodo()} />
                     </div> :
-                    <input className='create-todo-element' type='button' id='add-deadline' value='Add Deadline' onClick={() => this.props.addDeadline()} />
+                    <input className='create-todo-element todo-button' type='button' id='add-deadline' value='Add Deadline' onClick={() => this.props.addDeadline()} />
                 }
                 <h3 className='todo-header'>Status</h3>
                 <div className='create-todo-element' id='status-div'>
@@ -22,7 +22,11 @@ class FullTodo extends React.Component {
                     <input id='in-progress' className='status-element' type='radio' name='progress' value='In Progress' onChange={() => this.props.updateDisplayTodo()}/><label htmlFor='in-progress'>In Progress</label>
                     <input id='completed' className='status-element' type='radio' name='progress' value='Completed' onChange={() => this.props.updateDisplayTodo()}/><label htmlFor='completed'>Completed</label>
                 </div>
-            </div>
+                <div id='button-holder'>
+                    <input className='todo-button' type='button' id='confirm-button' value='Confirm' onClick={() => this.props.save()}/>
+                    <input className='todo-button' type='button' id='delete-button' value={this.props.message} onClick={(e) => this.props.delete(e, this.props.index)} />
+                </div> 
+           </div>
         );
     }
 }

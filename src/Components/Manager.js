@@ -20,6 +20,7 @@ class Manager extends React.Component {
         }
         this.completeTodo = this.completeTodo.bind(this);
         this.displayTodo = this.displayTodo.bind(this);
+        this.saveTodo = this.saveTodo.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
         this.addDeadline = this.addDeadline.bind(this);
         this.updateDisplayTodo = this.updateDisplayTodo.bind(this);
@@ -291,11 +292,7 @@ class Manager extends React.Component {
                 {mode? 
                 <div>
                     <div id='displayBG' onClick={() => this.saveTodo()}/>
-                    <FullTodo updateDisplayTodo={this.updateDisplayTodo} addDeadline={this.addDeadline} fullTodo={fullTodo}/>
-                    <div id='button-holder'>
-                        <button className='todo-button' id='confirm-button' onClick={() => this.saveTodo()}>Confirm</button>
-                        <button className='todo-button' id='delete-button' onClick={(e) => this.deleteTodo(e, index)}>{buttonMessage}</button>
-                    </div>
+                    <FullTodo updateDisplayTodo={this.updateDisplayTodo} addDeadline={this.addDeadline} fullTodo={fullTodo} message={buttonMessage} save={this.saveTodo} delete={this.deleteTodo} index={index}/>
                 </div>
                 : null}
                 <div id='todo-holder'>

@@ -132,7 +132,7 @@ body {
   transform:translate(-50%, -50%);
   margin: auto;
   width: 400px;
-  height: 400px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -163,37 +163,36 @@ body {
   padding-top: 5px;
 }
 #button-holder {
-  position: absolute;
-  bottom: var(--todo-button-bottom-dist);
-  left: 50%;
-  transform: translate(-50%, calc(var(--todo-button-bottom-dist) * -1));
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: fit-content;
   height: fit-content;
-  z-index: 10;
-  gap: 10px;
+  gap: 40px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
+
 .todo-button {
   position: relative;
   flex: none;
-  width: 250px;
-  height: 50px;
-  border: solid white 5px;
   box-sizing: border-box;
   border-radius: 5px;
   color: black;
   font-size: 15pt;
   font-weight: bold;
   cursor: pointer;
+  padding: 10px;
 }
 #confirm-button {
-  background-color: var(--light-green);
+  color: white;
+  background-color: var(--green);
 }
 #delete-button {
-  background-color: var(--light-red);
+  color: white;
+  background-color: var(--red);
 }
 #date-time {
   color: black;
@@ -336,7 +335,6 @@ label {
   }
   .create-todo-div {
     width: 310px;
-    height: 400px;
     box-sizing: border-box;
   }
   #todo-controls {
@@ -345,7 +343,6 @@ label {
   }
   .todo-button {
     font-size: 9pt;
-    width: 140px;
   }
   label {
     font-size: 6pt;
