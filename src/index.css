@@ -4,7 +4,7 @@
   --todo-width: 300px;
   --todo-height: 50px;
   --light-red: rgb(255, 112, 112);
-  --green: rgb(5, 185, 50);
+  --green: rgb(0, 212, 53);
   --light-green: rgb(81, 255, 125);
   --light-blue: rgb(233, 255, 254);
   --blue: rgb(0, 221, 255);
@@ -13,7 +13,7 @@
   --light-grey: rgb(191, 191, 191);
   --lighter-grey: rgb(235, 235, 235);
   --dark-grey: rgb(32, 32, 32);
-  --red: rgb(190, 0, 0);
+  --red: rgb(207, 0, 0);
   --yellow: rgb(255, 223, 107);
 }
 body {
@@ -156,11 +156,17 @@ body {
   flex: none;
   color: black;
 }
-#add-deadline {
-  margin-top: 20px;
-}
 #create-todo-title {
   padding-top: 5px;
+}
+#title {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-bottom-style: hidden;
+  border-left-style: hidden;
+  background-color: rgba(0,0,0,0);
+  color: black;
+  font-size: 20pt;
 }
 #button-holder {
   position: relative;
@@ -184,15 +190,17 @@ body {
   font-size: 15pt;
   font-weight: bold;
   cursor: pointer;
-  padding: 10px;
+  height: 40px;
 }
 #confirm-button {
   color: white;
   background-color: var(--green);
+  width: 100px;
 }
 #delete-button {
   color: white;
   background-color: var(--red);
+  width: 100px;
 }
 #date-time {
   color: black;
@@ -273,6 +281,7 @@ label {
   resize: none;
   width: 90%;
   height: 75px;
+  margin-top: 20px;
 }
 #time-div {
   margin: auto;

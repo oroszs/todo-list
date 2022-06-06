@@ -5,18 +5,15 @@ class FullTodo extends React.Component {
         let classString = `create-todo-div ${this.props.fullTodo.colorClass}`;
         return (
             <div className={classString}>
-                <h3 className='todo-header' id='create-todo-title'>Title</h3>
-                <input className='create-todo-element' placeholder='Enter Title Here...' type='text' id='title' />
-                <h3 className='todo-header'>Description</h3>
-                <textarea className='create-todo-element' placeholder='Enter Description Here...' id='description' />
-                {this.props.fullTodo.deadline ? 
-                    <div id='deadline-wrapper'>
-                        <h3 className='todo-header'>Deadline</h3>
-                        <input className = 'create-todo-element' type='datetime-local' id='date-time' onChange={() => this.props.updateDisplayTodo()} />
-                    </div> :
-                    <input className='create-todo-element todo-button' type='button' id='add-deadline' value='Add Deadline' onClick={() => this.props.addDeadline()} />
+                <input className='create-todo-element' placeholder='To-Do' type='text' id='title' />
+                {this.props.fullTodo.description === undefined ? 
+                    <input className='create-todo-element todo-button add-button' type='button' value='Add Description' onClick={() => this.props.addDescription()} /> :
+                    <textarea className='create-todo-element' placeholder='Enter Description Here...' id='description' />
                 }
-                <h3 className='todo-header'>Status</h3>
+                {this.props.fullTodo.deadline ? 
+                    <input className = 'create-todo-element' type='datetime-local' id='date-time' onChange={() => this.props.updateDisplayTodo()} /> :
+                    <input className='create-todo-element todo-button add-button' type='button' id='add-deadline' value='Add Deadline' onClick={() => this.props.addDeadline()} />
+                }
                 <div className='create-todo-element' id='status-div'>
                     <input id='not-started' className='status-element' type='radio' name='progress' value='Not Started' onChange={() => this.props.updateDisplayTodo()}/><label htmlFor='not-started'>Not Started</label>
                     <input id='in-progress' className='status-element' type='radio' name='progress' value='In Progress' onChange={() => this.props.updateDisplayTodo()}/><label htmlFor='in-progress'>In Progress</label>

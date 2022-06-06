@@ -23,6 +23,7 @@ class Manager extends React.Component {
         this.saveTodo = this.saveTodo.bind(this);
         this.deleteTodo = this.deleteTodo.bind(this);
         this.addDeadline = this.addDeadline.bind(this);
+        this.addDescription = this.addDescription.bind(this);
         this.updateDisplayTodo = this.updateDisplayTodo.bind(this);
     }
 
@@ -32,10 +33,10 @@ class Manager extends React.Component {
     }
 
     createTodo() {
-        let todo = new Todo();
-        todo.colorClass = 'normal-todo';
+        let fullTodo = new TodoObj();
+        fullTodo.colorClass = 'normal-todo';
         this.setState({
-            displayTodo: todo,
+            displayTodo: fullTodo,
             mode: 'Create',
         }, () => {
             let status = document.querySelector('#not-started');
@@ -68,7 +69,9 @@ class Manager extends React.Component {
             let description = document.querySelector('#description');
             let chosenTodo = this.state.todos[this.state.displayTodoIndex - 1];
             title.value = chosenTodo.title;
-            description.value = chosenTodo.description;
+            if(description) {
+                description.value = chosenTodo.description;
+            }
             let notStart = document.querySelector('#not-started');
             let inProg = document.querySelector('#in-progress');
             let complete = document.querySelector('#completed');
@@ -118,7 +121,9 @@ class Manager extends React.Component {
         let todo = new TodoObj();
         let index = this.state.displayTodoIndex;
         todo.title = title.value === '' ? 'To-Do' : title.value;
-        todo.description = (description.value === ''? '' : description.value);
+        if(description) {
+            todo.description = description.value;
+        }
         if(deadline) {
             todo.deadline = deadline.value;
         }
@@ -182,6 +187,14 @@ class Manager extends React.Component {
         return todoComponents;
     }
 
+    addDescription() {
+        let temp = this.state.displayTodo;
+        temp.description = '';
+        this.setState({
+            displayTodo: temp,
+        });
+    }
+
     addDeadline() {
         let temp = this.state.displayTodo;
         temp.deadline = new Date();
@@ -212,7 +225,7 @@ class Manager extends React.Component {
         const MILLI_HOUR = 3600000;
 
         const updateTodo = (todo) => {
-            if(todo.status !== 'Completed' && todo.deadline !== undefined) {
+            if(todo.status !== 'Completed' && todo.deadline !== undefined && todo.deadline !== 'Add Deadline') {
                 let todoDate = new Date(Date.parse(todo.deadline)).getDate();
                 let todoMilli = Date.parse(todo.deadline);
 
@@ -292,7 +305,7 @@ class Manager extends React.Component {
                 {mode? 
                 <div>
                     <div id='displayBG' onClick={() => this.saveTodo()}/>
-                    <FullTodo updateDisplayTodo={this.updateDisplayTodo} addDeadline={this.addDeadline} fullTodo={fullTodo} message={buttonMessage} save={this.saveTodo} delete={this.deleteTodo} index={index}/>
+                    <FullTodo updateDisplayTodo={this.updateDisplayTodo} addDescription={this.addDescription} addDeadline={this.addDeadline} fullTodo={fullTodo} message={buttonMessage} save={this.saveTodo} delete={this.deleteTodo} index={index}/>
                 </div>
                 : null}
                 <div id='todo-holder'>
