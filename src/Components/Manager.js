@@ -41,6 +41,8 @@ class Manager extends React.Component {
         }, () => {
             let status = document.querySelector('#not-started');
             status.checked = true;
+            let title = document.querySelector('#title');
+            title.value = 'To-Do';
         });
     }
 

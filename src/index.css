@@ -150,11 +150,11 @@ body {
   background-color: var(--lighter-grey);
   width: 90%;
   border-radius: 5px;
-  padding: 10px;
   box-sizing: border-box;
   border: solid black 2px;
   flex: none;
   color: black;
+  padding: 10px;
 }
 #create-todo-title {
   padding-top: 5px;
@@ -188,9 +188,12 @@ body {
   border-radius: 5px;
   color: black;
   font-size: 15pt;
-  font-weight: bold;
   cursor: pointer;
   height: 40px;
+  border: solid black 2px;
+  text-align: center;
+  background-color: var(--lighter-grey);
+  width: 90%;
 }
 #confirm-button {
   color: white;
@@ -252,6 +255,7 @@ label {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  padding: 10px;
 }
 .status-element{
   flex: none;
