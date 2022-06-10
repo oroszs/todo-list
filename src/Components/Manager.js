@@ -25,6 +25,7 @@ class Manager extends React.Component {
         this.addDeadline = this.addDeadline.bind(this);
         this.addDescription = this.addDescription.bind(this);
         this.updateDisplayTodo = this.updateDisplayTodo.bind(this);
+        this.removeElement = this.removeElement.bind(this);
     }
 
     storeTodos(todos) {
@@ -196,6 +197,17 @@ class Manager extends React.Component {
             displayTodo: temp,
         });
     }
+    removeElement(element) {
+        let temp = this.state.displayTodo;
+        if(element === 'Description') {
+            temp.description = undefined;
+        } else if (element === 'Deadline') {
+            temp.deadline = undefined;
+        }
+        this.setState({
+            displayTodo: temp,
+        });
+    }
 
     addDeadline() {
         let temp = this.state.displayTodo;
@@ -307,7 +319,7 @@ class Manager extends React.Component {
                 {mode? 
                 <div>
                     <div id='displayBG' onClick={() => this.saveTodo()}/>
-                    <FullTodo updateDisplayTodo={this.updateDisplayTodo} addDescription={this.addDescription} addDeadline={this.addDeadline} fullTodo={fullTodo} message={buttonMessage} save={this.saveTodo} delete={this.deleteTodo} index={index}/>
+                    <FullTodo removeElement={this.removeElement} updateDisplayTodo={this.updateDisplayTodo} addDescription={this.addDescription} addDeadline={this.addDeadline} fullTodo={fullTodo} message={buttonMessage} save={this.saveTodo} delete={this.deleteTodo} index={index}/>
                 </div>
                 : null}
                 <div id='todo-holder'>

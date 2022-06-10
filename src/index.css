@@ -145,6 +145,33 @@ body {
 #deadline-wrapper {
   width: 100%;
 }
+.remove-x{
+  color: black;
+  font-size: 14pt;
+  font-weight: bold;
+  position: relative;
+  bottom: 3px;
+  left: .5px;
+}
+.remove-circle {
+  cursor: pointer;
+  border: solid black 2px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--red);
+  border-radius: 50%;
+  position: absolute;
+  right: 10px;
+}
+#description-remove-circle {
+  margin-top: 10px;
+}
+#deadline-remove-circle{
+  margin-top: -10px;
+}
+.create-todo-element-holder {
+  width: 100%;
+}
 .create-todo-element {
   text-align: center;
   background-color: var(--lighter-grey);
@@ -367,5 +394,14 @@ label {
   #empty-message {
     font-size: 12pt;
     padding: 10px;
+  }
+  .remove-circle {
+    right: 5px;
+  }
+  #description-remove-circle {
+    margin-top: 10px;
+  }
+  #deadline-remove-circle {
+    margin-top: -10px;
   }
 }
