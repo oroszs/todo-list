@@ -147,21 +147,22 @@ body {
 }
 .remove-x{
   color: black;
-  font-size: 14pt;
+  font-size: 10pt;
   font-weight: bold;
-  position: relative;
-  bottom: 3px;
-  left: .5px;
 }
 .remove-circle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  border: solid black 2px;
   width: 20px;
   height: 20px;
-  background-color: var(--red);
+  background-color: var(--lighter-grey);
   border-radius: 50%;
   position: absolute;
   right: 10px;
+  border: solid black 2px;
 }
 #description-remove-circle {
   margin-top: 10px;
@@ -235,6 +236,8 @@ body {
 #date-time {
   color: black;
   width: 90%;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 .todo-title {
   overflow: hidden;
@@ -382,7 +385,7 @@ label {
     height: 60px;
   }
   .todo-button {
-    font-size: 9pt;
+    font-size: 12pt;
   }
   label {
     font-size: 6pt;
