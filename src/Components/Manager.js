@@ -124,7 +124,7 @@ class Manager extends React.Component {
         let todo = new TodoObj();
         let index = this.state.displayTodoIndex;
         todo.title = title.value === '' ? 'To-Do' : title.value;
-        if(description) {
+        if(description && description.value !== '') {
             todo.description = description.value;
         }
         if(deadline) {
