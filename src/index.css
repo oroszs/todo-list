@@ -12,6 +12,7 @@
   --grey: rgb(104, 104, 104);
   --light-grey: rgb(191, 191, 191);
   --lighter-grey: rgb(235, 235, 235);
+  --trans-light-grey: rgba(191, 191, 191, 0.75);
   --dark-grey: rgb(32, 32, 32);
   --red: rgb(207, 0, 0);
   --yellow: rgb(255, 223, 107);
@@ -168,18 +169,18 @@ body {
   margin-top: 10px;
 }
 #deadline-remove-circle{
-  margin-top: -10px;
+  margin-top: -20px;
 }
 .create-todo-element-holder {
   width: 100%;
 }
 .create-todo-element {
   text-align: center;
-  background-color: var(--lighter-grey);
+  background-color: white;
   width: 90%;
   border-radius: 5px;
   box-sizing: border-box;
-  border: solid black 2px;
+  border: none;
   flex: none;
   color: black;
   padding: 10px;
@@ -208,20 +209,20 @@ body {
   margin-top: 20px;
   margin-bottom: 10px;
 }
-
 .todo-button {
   position: relative;
   flex: none;
   box-sizing: border-box;
   border-radius: 5px;
+  border: none;
   color: black;
   font-size: 15pt;
   cursor: pointer;
   height: 40px;
-  border: solid black 2px;
   text-align: center;
-  background-color: var(--lighter-grey);
+  background-color: var(--trans-light-grey);
   width: 90%;
+  box-shadow: 0px 0px 5px white;
 }
 #confirm-button {
   color: white;
@@ -235,7 +236,7 @@ body {
 }
 #date-time {
   color: black;
-  width: 90%;
+  width: 80%;
   -moz-appearance: none;
   -webkit-appearance: none;
 }
@@ -405,6 +406,6 @@ label {
     margin-top: 10px;
   }
   #deadline-remove-circle {
-    margin-top: -10px;
+    margin-top: -20px;
   }
 }

@@ -16,7 +16,7 @@ class FullTodo extends React.Component {
                     </div>
                 }
                 {this.props.fullTodo.deadline ? 
-                    <div className='create-todo-element-holder'>
+                    <div className='create-todo-element-holder create-todo-element'>
                         <div className='remove-circle' id='deadline-remove-circle' onClick={() => this.props.removeElement('Deadline')}>
                             <span  className='remove-x' >X</span>
                         </div>
