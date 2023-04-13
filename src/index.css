@@ -65,7 +65,8 @@ body {
   max-height: calc((var(--todo-height) * 6) + (var(--todo-padding) * 7));
   padding: var(--todo-padding);
   gap: var(--todo-padding);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
