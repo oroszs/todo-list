@@ -180,11 +180,21 @@ class Manager extends React.Component {
     }
 
     clearCompleted() {
-
+        let todos = this.state.todos;
+        for(let i = 0; i < todos.length; i++) {
+            if(todos[i].status === 'Completed') todos.splice(i, 1);
+        }
+        this.storeTodos(todos);
+        this.setState({
+            todos: todos,
+        });
     }
 
     clearAll() {
-
+        this.storeTodos([]);
+        this.setState({
+            todos: [],
+        });
     }
 
     displayTodos() {

@@ -83,13 +83,13 @@ body {
   flex: none;
   margin: 20px;
 }
+
 #clearHolder {
   flex: none;
   width: auto;
   height: 75px;
-  background-color: var(--dark-blue);
-  border: solid red 5px;
-  border-radius: 5px;
+  background-color: var(--dark-grey);
+  border-radius: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -97,11 +97,14 @@ body {
 }
 
 .clearButton {
-  background-color: red;
-  border: solid black 5px;
-  border-radius: 5px;
+  background-color: white;
+  border-radius: 30px;
+  padding: 10px;
   flex: none;
   margin: 20px;
+  cursor: pointer;
+  box-shadow: 0px 0px 5px white;
+  font-weight: bold;
 }
 
 #todo-holder::-webkit-scrollbar {
@@ -400,8 +403,11 @@ label {
   .only-todo {
     padding: 14px;
   }
-  #todo-holder {
+  #todo-holder, #clearHolder {
     width: 308px;
+  }
+  .clearButton {
+    margin: 5px;
   }
   .create-todo-div {
     width: 310px;
