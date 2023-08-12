@@ -26,6 +26,7 @@ class Manager extends React.Component {
         this.addDescription = this.addDescription.bind(this);
         this.updateDisplayTodo = this.updateDisplayTodo.bind(this);
         this.removeElement = this.removeElement.bind(this);
+        this.clearCompleted = this.clearCompleted.bind(this);
     }
 
     storeTodos(todos) {
@@ -42,8 +43,6 @@ class Manager extends React.Component {
         }, () => {
             let status = document.querySelector('#not-started');
             status.checked = true;
-            let title = document.querySelector('#title');
-            title.value = 'To-Do';
         });
     }
 
@@ -177,6 +176,10 @@ class Manager extends React.Component {
         this.setState({
             todos: todos,
         });
+    }
+
+    clearCompleted() {
+        
     }
 
     displayTodos() {
