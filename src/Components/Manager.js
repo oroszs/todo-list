@@ -15,7 +15,7 @@ class Manager extends React.Component {
             displayTodo: null,
             displayTodoIndex: null,
             convert: new DateConvert(),
-            columnLength: 5,
+            columnLength: 3,
             mode: null,
         }
         this.completeTodo = this.completeTodo.bind(this);
@@ -27,6 +27,7 @@ class Manager extends React.Component {
         this.updateDisplayTodo = this.updateDisplayTodo.bind(this);
         this.removeElement = this.removeElement.bind(this);
         this.clearCompleted = this.clearCompleted.bind(this);
+        this.clearAll = this.clearAll.bind(this);
     }
 
     storeTodos(todos) {
@@ -179,7 +180,11 @@ class Manager extends React.Component {
     }
 
     clearCompleted() {
-        
+
+    }
+
+    clearAll() {
+
     }
 
     displayTodos() {
@@ -317,6 +322,8 @@ class Manager extends React.Component {
         let index = this.state.displayTodoIndex;
         let buttonMessage = (mode === 'Create' ? 'Cancel' : 'Delete');
         let fullTodo = (mode ? this.state.displayTodo : null);
+        let todos = this.state.todos;
+        let completed = todos.filter(todoEl => todoEl.status === 'Completed');
         return(
             <div id='wrapper'>
                 {mode? 
@@ -331,6 +338,14 @@ class Manager extends React.Component {
                         <div className='todo-div normal-todo' id='add-todo' onClick={() => this.createTodo()}>+</div>
                     </div>
                 </div>
+                {todos.length > 0?
+                    <div id='clearHolder'>
+                        <div className='clearButton' id='clearAllButton' onClick={() => this.clearAll()}>Clear All</div>
+                        {completed.length > 0?
+                        <div className='clearButton' id='clearCompletedButton' onClick={() => this.clearCompleted()}>Clear Completed</div>
+                        : null}
+                    </div>
+                : null}
             </div>
         );
     }

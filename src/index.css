@@ -48,6 +48,10 @@ body {
   top: 0px;
   bottom: 0px;
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 #displayBG {
   left: 0px;
@@ -59,10 +63,9 @@ body {
   background-color: rgba(0, 0, 0, 0.75);
 }
 #todo-holder {
-  --top-dist: 50%;
   width: auto;
   height: fit-content;
-  max-height: calc((var(--todo-height) * 6) + (var(--todo-padding) * 7));
+  max-height: calc((var(--todo-height) * 4) + (var(--todo-padding) * 5));
   padding: var(--todo-padding);
   gap: var(--todo-padding);
   overflow-y: scroll;
@@ -71,16 +74,36 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  position: absolute;
+  position: relative;
   transform: translate(-50%, calc(var(--top-dist) * -1));
-  left: 50%;
-  top: var(--top-dist);
   background-color: var(--dark-grey);
   border-radius: 10px;
+  flex: none;
+  margin: 20px;
 }
+#clearHolder {
+  flex: none;
+  width: auto;
+  height: 75px;
+  background-color: var(--dark-blue);
+  border: solid red 5px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.clearButton {
+  background-color: red;
+  border: solid black 5px;
+  border-radius: 5px;
+  flex: none;
+  margin: 20px;
+}
+
 #todo-holder::-webkit-scrollbar {
   display: none;
 }
