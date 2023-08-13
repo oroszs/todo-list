@@ -181,12 +181,10 @@ class Manager extends React.Component {
 
     clearCompleted() {
         let todos = this.state.todos;
-        for(let i = 0; i < todos.length; i++) {
-            if(todos[i].status === 'Completed') todos.splice(i, 1);
-        }
-        this.storeTodos(todos);
+        let newTodos = todos.filter(el => el.status !== 'Completed');
+        this.storeTodos(newTodos);
         this.setState({
-            todos: todos,
+            todos: newTodos,
         });
     }
 
