@@ -97,13 +97,13 @@ body {
 }
 
 .clearButton {
-  background-color: white;
+  background-color: var(--light-red);
   border-radius: 30px;
   padding: 10px;
   flex: none;
   margin: 20px;
   cursor: pointer;
-  box-shadow: 0px 0px 5px white;
+  box-shadow: 0px 0px 5px var(--light-red);
   font-weight: bold;
 }
 
