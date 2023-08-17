@@ -153,7 +153,7 @@ class Manager extends React.Component {
         }
         if(nonDeadlineTodos.length > 0) {
             nonDeadlineTodos.forEach(todo => {
-                sortedTodos.unshift(todo);
+                sortedTodos.push(todo);
             });
         }
         this.storeTodos(sortedTodos);
