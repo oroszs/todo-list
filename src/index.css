@@ -21,6 +21,18 @@ body {
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+#main {
+  background-color: var(--light-blue);
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
 #main-title {
   color: rgb(32, 32, 32);
   font-size: 30pt;
@@ -31,27 +43,30 @@ body {
   background-color: var(--blue);
   width: fit-content;
   position: relative;
-  margin: auto;
-  margin-top: 20px;
-}
-#main {
-  background-color: var(--light-blue);
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
+  flex: none;
 }
 #wrapper {
   left: 0px;
   right: 0px;
   top: 0px;
   bottom: 0px;
-  position: absolute;
+  position: relative;
+  flex: none;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction:column;
+  justify-content: space-evenly;
   align-items: center;
+}
+#time-div {
+  flex: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+  width: 90%;
+  height: fit-content;
+  position: relative;
 }
 #displayBG {
   left: 0px;
@@ -81,12 +96,12 @@ body {
   background-color: var(--dark-grey);
   border-radius: 10px;
   flex: none;
-  margin: 20px;
+  margin-bottom: 10px;
 }
 
 #clearHolder {
   flex: none;
-  width: auto;
+  width: fit-content;
   height: 75px;
   background-color: var(--dark-grey);
   border-radius: 10px;
@@ -94,14 +109,17 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .clearButton {
+  font-size: 10pt;
   background-color: var(--light-red);
   border-radius: 30px;
   padding: 10px;
   flex: none;
-  margin: 20px;
+  margin: 10px;
   cursor: pointer;
   box-shadow: 0px 0px 5px var(--light-red);
   font-weight: bold;
@@ -347,20 +365,6 @@ label {
   height: 75px;
   margin-top: 20px;
 }
-#time-div {
-  margin: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 30px;
-  align-items: center;
-  width: 90%;
-  height: fit-content;
-  position: absolute;
-  transform: translate(-50%, 0);
-  left: 50%;
-  bottom: 10px;
-}
 .time-h1 {
   flex: none;
   font-size: 25pt;
@@ -403,7 +407,7 @@ label {
   .only-todo {
     padding: 14px;
   }
-  #todo-holder, #clearHolder {
+  #todo-holder {
     width: 308px;
   }
   .clearButton {
