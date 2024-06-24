@@ -36,14 +36,13 @@ body {
 #main-title {
   color: rgb(32, 32, 32);
   font-size: 30pt;
-  padding: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 20px 10px 20px;
   border-radius: 20px;
   background-color: var(--blue);
   width: fit-content;
   position: relative;
   flex: none;
+  margin: 10px 0px 10px 0px;
 }
 #wrapper {
   left: 0px;
@@ -80,7 +79,7 @@ body {
 #todo-holder {
   width: auto;
   height: fit-content;
-  max-height: calc((var(--todo-height) * 4) + (var(--todo-padding) * 5));
+  max-height: calc((var(--todo-height) * 7) + (var(--todo-padding) * 8));
   padding: var(--todo-padding);
   gap: var(--todo-padding);
   overflow-y: scroll;
@@ -367,7 +366,8 @@ label {
 }
 .time-h1 {
   flex: none;
-  font-size: 25pt;
+  font-size: 15pt;
+  margin: 0px 0px 10px 0px;
 }
 @media screen and (max-width: 1400px) {
   #todo-holder {

@@ -156,6 +156,14 @@ class Manager extends React.Component {
                 sortedTodos.push(todo);
             });
         }
+        let completeTodos = [];
+        for(let i = 0; i < sortedTodos.length; i++) {
+            if(sortedTodos[i].status === 'Completed') {
+                completeTodos.push(sortedTodos[i]);
+                sortedTodos.splice(i, 1);
+            }
+        }
+        if(completeTodos.length > 0) completeTodos.forEach(todo => sortedTodos.push(todo));
         this.storeTodos(sortedTodos);
         this.setState({
             displayTodoIndex: null,
@@ -167,12 +175,20 @@ class Manager extends React.Component {
     completeTodo(e, index) {
         e.stopPropagation();
         let todos = this.state.todos;
+        let completeTodos= [];
+        let incompleteTodos = [];
         if(todos[index - 1].status === 'In Progress' || todos[index - 1].status === 'Not Started') {
             todos[index - 1].status = 'Completed';
             todos[index - 1].deadlineString = null;
+            completeTodos.push(todos[index - 1]);
+            todos.splice(index - 1, 1);
         } else if (todos[index - 1].status === 'Completed') {
             todos[index - 1].status = 'In Progress';
+            incompleteTodos.unshift(todos[index - 1]);
+            todos.splice(index - 1, 1);
         }
+        if(incompleteTodos.length > 0) incompleteTodos.forEach(todo => todos.unshift(todo));
+        if(completeTodos.length > 0) completeTodos.forEach(todo => todos.push(todo));
         this.storeTodos(todos);
         this.setState({
             todos: todos,

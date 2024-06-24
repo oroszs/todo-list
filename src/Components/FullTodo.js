@@ -5,7 +5,10 @@ class FullTodo extends React.Component {
         let classString = `create-todo-div ${this.props.fullTodo.colorClass}`;
         return (
             <div className={classString}>
-                <input className='create-todo-element' placeholder='Title' type='text' id='title' />
+                {this.props.fullTodo.title ? 
+                    <input className='create-todo-element' placeholder='Title' type='text' id='title' /> :
+                    <input autoFocus className='create-todo-element' placeholder='Title' type='text' id='title' />
+                }
                 {this.props.fullTodo.description === undefined ? 
                     <input className='todo-button' type='button' value='+ Description' onClick={() => this.props.addDescription()} /> :
                     <div className='create-todo-element-holder'>
