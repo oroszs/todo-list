@@ -138,32 +138,7 @@ class Manager extends React.Component {
         } else if (mode === 'Display') {
             currentTodos.splice(index - 1, 1, todo);
         }
-        let deadlineTodos = [];
-        let nonDeadlineTodos = [];
-        currentTodos.forEach(todo => {
-            if(todo.deadline) {
-                deadlineTodos.push(todo);
-            } else {
-                nonDeadlineTodos.push(todo);
-            }
-        });
-        let sortedTodos = [];
-        if(deadlineTodos.length > 0) {
-            sortedTodos = deadlineTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
-        }
-        if(nonDeadlineTodos.length > 0) {
-            nonDeadlineTodos.forEach(todo => {
-                sortedTodos.push(todo);
-            });
-        }
-        let completeTodos = [];
-        for(let i = 0; i < sortedTodos.length; i++) {
-            if(sortedTodos[i].status === 'Completed') {
-                completeTodos.push(sortedTodos[i]);
-                sortedTodos.splice(i, 1);
-            }
-        }
-        if(completeTodos.length > 0) completeTodos.forEach(todo => sortedTodos.push(todo));
+        let sortedTodos = this.sortTodos(currentTodos);
         this.storeTodos(sortedTodos);
         this.setState({
             displayTodoIndex: null,
@@ -172,23 +147,54 @@ class Manager extends React.Component {
         });
     }
 
+    sortTodos(todos) {
+        let deadlineTodos = [];
+        let nondeadlineTodos = [];
+        let completeTodos = [];
+        let incompleteTodos = [];
+        let sortedTodos = [];
+        let finalTodos = [];
+        //separate todos with deadlines
+        todos.forEach(todo => {
+            if(todo.deadline) {
+                deadlineTodos.push(todo);
+            } else {
+                nondeadlineTodos.push(todo);
+            }
+        });
+        //sort deadline todos
+        if(deadlineTodos.length > 0) {
+            sortedTodos = deadlineTodos.sort((a, b) => Date.parse(a.deadline) - Date.parse(b.deadline));
+        }
+        //push nondeadline todos onto the end of deadline todo array
+        if(nondeadlineTodos.length > 0) {
+            sortedTodos = this.populateTodoArray(sortedTodos, nondeadlineTodos);
+        }
+        //iterate through todos, remove completed todos and push them onto a separate array
+        for(let i = 0; i < sortedTodos.length; i++) {
+            sortedTodos[i].status === 'Completed' ? completeTodos.push(sortedTodos[i]) : incompleteTodos.push(sortedTodos[i]);
+        }
+        //populate finalTodos
+        if(incompleteTodos.length > 0) finalTodos = this.populateTodoArray(finalTodos, incompleteTodos);
+        if(completeTodos.length > 0) finalTodos = this.populateTodoArray(finalTodos, completeTodos);
+        return finalTodos;
+    }
+
+    populateTodoArray(big, small) {
+        small.forEach(todo => big.push(todo));
+        return big;
+    }
+
     completeTodo(e, index) {
         e.stopPropagation();
         let todos = this.state.todos;
-        let completeTodos= [];
-        let incompleteTodos = [];
         if(todos[index - 1].status === 'In Progress' || todos[index - 1].status === 'Not Started') {
             todos[index - 1].status = 'Completed';
             todos[index - 1].deadlineString = null;
-            completeTodos.push(todos[index - 1]);
-            todos.splice(index - 1, 1);
         } else if (todos[index - 1].status === 'Completed') {
             todos[index - 1].status = 'In Progress';
-            incompleteTodos.unshift(todos[index - 1]);
-            todos.splice(index - 1, 1);
         }
-        if(incompleteTodos.length > 0) incompleteTodos.forEach(todo => todos.unshift(todo));
-        if(completeTodos.length > 0) completeTodos.forEach(todo => todos.push(todo));
+        todos = this.sortTodos(todos);
         this.storeTodos(todos);
         this.setState({
             todos: todos,
