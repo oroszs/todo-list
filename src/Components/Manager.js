@@ -127,10 +127,11 @@ class Manager extends React.Component {
         if(description && description.value !== '') {
             todo.description = description.value;
         }
-        if(deadline) {
+        if(deadline && deadline.value !== '') {
             todo.deadline = deadline.value;
+        } else  {
+            todo.deadline = undefined;
         }
-        todo.deadlineString = (index ? currentTodos[index - 1].deadlineString : '');
         todo.colorClass = (index ? currentTodos[index - 1].colorClass : 'normal-todo');
         todo.status = status.value;
         if(mode === 'Create') {
