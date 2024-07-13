@@ -8,7 +8,10 @@ class Todo extends React.Component {
         return(
             <div onClick={() => displayTodo(this.props.id)} className='todo-wrapper'>
                 <div className={classString}>
-                    <h3 className='todo-title'>{this.props.title}</h3>
+                    {this.props.title.length > 18 ? 
+                        <span className='todo-title long-title'>{this.props.title}</span> :
+                        <span className='todo-title short-title'>{this.props.title}</span>
+                    }
                     <span className='todo-deadline-string'>{this.props.deadlineString}</span>
                     {this.props.status === 'Completed' ? <span className='todo-checkmark'>&#10003;</span> : null}
                     <span className='todo-delete' onClick={(e) => this.props.deleteTodo(e, this.props.id)}>&#9447;</span>

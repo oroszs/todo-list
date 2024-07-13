@@ -287,18 +287,24 @@ body {
   -webkit-appearance: none;
 }
 .todo-title {
-  width: 230px;
-  height: 30px;
+  flex: none;
+  font-weight: bold;
+}
+.short-title{
+  font-size: 14pt;
+}
+.long-title {
+  width: 225px;
+  height: 36px;
   overflow: hidden;
   text-wrap: wrap;
-  flex: none;
-  margin: 2px;
-  font-size: 10pt;
+  font-size: 11pt;
   word-break: break-word;
 }
 .todo-deadline-string {
   font-size: 8pt;
   color: black;
+  font-weight: bold;
 }
 .todo-checkmark{
   position: absolute;
